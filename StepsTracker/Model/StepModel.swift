@@ -64,11 +64,6 @@ class StepModel: ObservableObject {
     private func startUpdatingSteps() {
         isUpdating = true
         
-        // Configure HealthKit query for today's steps
-        let calendar = Calendar.current
-        let now = Date()
-        let startOfDay = calendar.startOfDay(for: now)
-        
         // Define step count data type
         guard let stepCountType = HKQuantityType.quantityType(forIdentifier: .stepCount) else {
             return
@@ -96,7 +91,7 @@ class StepModel: ObservableObject {
         loadWeeklyData()
     }
     
-    private func fetchTodaySteps() {
+    public func fetchTodaySteps() {
         let calendar = Calendar.current
         let now = Date()
         let startOfDay = calendar.startOfDay(for: now)
@@ -159,7 +154,7 @@ class StepModel: ObservableObject {
         loadWeeklyData()
     }
     
-    private func loadWeeklyData() {
+    public func loadWeeklyData() {
         let calendar = Calendar.current
         let today = Date()
         
