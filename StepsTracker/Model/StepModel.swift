@@ -15,7 +15,7 @@ class StepModel: ObservableObject {
         checkAuthorizationStatus()
     }
     
-    func checkAuthorizationStatus() {
+    private func checkAuthorizationStatus() {
         if CMPedometer.isStepCountingAvailable() {
             startUpdatingSteps()
         } else {
@@ -23,11 +23,11 @@ class StepModel: ObservableObject {
         }
     }
     
-    func progress() -> Double {
+    public func progress() -> Double {
         return min(Double(todaySteps) / Double(goalSteps), 1.0)
     }
     
-    func requestHealthKitPermission() {
+    private func requestHealthKitPermission() {
         // Check if HealthKit is available
         if HKHealthStore.isHealthDataAvailable() {
             // Define the data types we want to read
@@ -53,7 +53,7 @@ class StepModel: ObservableObject {
         }
     }
     
-    func checkPedometerAvailability() {
+    private func checkPedometerAvailability() {
         if CMPedometer.isStepCountingAvailable() {
             startUpdatingWithPedometer()
         } else {
@@ -61,7 +61,7 @@ class StepModel: ObservableObject {
         }
     }
     
-    func startUpdatingSteps() {
+    private func startUpdatingSteps() {
         isUpdating = true
         
         // Configure HealthKit query for today's steps
@@ -96,7 +96,7 @@ class StepModel: ObservableObject {
         loadWeeklyData()
     }
     
-    func fetchTodaySteps() {
+    private func fetchTodaySteps() {
         let calendar = Calendar.current
         let now = Date()
         let startOfDay = calendar.startOfDay(for: now)
@@ -137,7 +137,7 @@ class StepModel: ObservableObject {
         healthStore.execute(query)
     }
     
-    func startUpdatingWithPedometer() {
+    private func startUpdatingWithPedometer() {
         // Original method using pedometer as fallback
         isUpdating = true
         
@@ -159,7 +159,7 @@ class StepModel: ObservableObject {
         loadWeeklyData()
     }
     
-    func loadWeeklyData() {
+    private func loadWeeklyData() {
         let calendar = Calendar.current
         let today = Date()
         

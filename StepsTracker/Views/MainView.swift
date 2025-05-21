@@ -5,6 +5,7 @@ import HealthKit
 
 struct MainView: View {
     @EnvironmentObject var stepModel: StepModel
+    @State private var showSuccessAnimation = false
     
     var body: some View {
         GeometryReader { geometry in
@@ -29,7 +30,7 @@ struct MainView: View {
                         .trim(from: 0, to: CGFloat(stepModel.progress()))
                         .stroke(
                             LinearGradient(
-                                gradient: Gradient(colors: [.blue, .purple]),
+                                gradient: Gradient(colors: stepModel.todaySteps >= stepModel.goalSteps ? [.green, .green.opacity(0.8)] : [.blue, .purple]),
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing
                             ),
@@ -37,6 +38,32 @@ struct MainView: View {
                         )
                         .rotationEffect(.degrees(-90))
                         .animation(.spring(), value: stepModel.progress())
+                        .onChange(of: stepModel.todaySteps) { newValue in
+                            if newValue >= stepModel.goalSteps {
+                                withAnimation(.spring(response: 0.6, dampingFraction: 0.6)) {
+                                    showSuccessAnimation = true
+                                }
+                                // Reset animation after 2 seconds
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                    withAnimation {
+                                        showSuccessAnimation = false
+                                    }
+                                }
+                            }
+                        }
+                    
+                    // Success animation
+                    if showSuccessAnimation {
+                        Circle()
+                            .stroke(Color.green, lineWidth: 2)
+                            .scaleEffect(showSuccessAnimation ? 1.2 : 1.0)
+                            .opacity(showSuccessAnimation ? 0 : 1)
+                            .animation(
+                                .easeInOut(duration: 1)
+                                .repeatCount(2, autoreverses: false),
+                                value: showSuccessAnimation
+                            )
+                    }
                     
                     // Inner circle with glow effect
                     Circle()
@@ -55,18 +82,16 @@ struct MainView: View {
                         Text("\(stepModel.todaySteps)")
                             .font(.system(size: 70, weight: .bold, design: .rounded))
                             .foregroundColor(.white)
-                            .shadow(color: .blue.opacity(0.5), radius: 10, x: 0, y: 0)
+                            .shadow(color: stepModel.todaySteps >= stepModel.goalSteps ? .green.opacity(0.5) : .blue.opacity(0.5), radius: 10, x: 0, y: 0)
                         
-                        Text("PASOS")
+                        Text("STEPS")
                             .font(.headline)
                             .foregroundColor(.gray)
                         
                         Text("\(Int(stepModel.progress() * 100))%")
                             .font(.title2)
                             .fontWeight(.semibold)
-                            .foregroundColor(
-                                .black
-                            )
+                            .foregroundColor(.gray.opacity(0.5))
                     }
                 }
                 .frame(width: min(geometry.size.width * 0.85, 350))
@@ -74,19 +99,19 @@ struct MainView: View {
                 
                 // Daily goal
                 HStack {
-                    Text("Meta diaria:")
+                    Text("Daily goal:")
                         .font(.headline)
                         .foregroundColor(.gray)
                     
-                    Text("\(stepModel.goalSteps) pasos")
+                    Text("\(stepModel.goalSteps) steps")
                         .font(.headline)
-                        .foregroundColor(.blue)
+                        .foregroundColor(stepModel.todaySteps >= stepModel.goalSteps ? .green : .blue)
                 }
                 .padding()
                 .background(
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color.black.opacity(0.1))
-                        .shadow(color: .blue.opacity(0.2), radius: 10, x: 0, y: 5)
+                        .shadow(color: stepModel.todaySteps >= stepModel.goalSteps ? .green.opacity(0.2) : .blue.opacity(0.2), radius: 10, x: 0, y: 5)
                 )
                 
                 Spacer()
@@ -128,5 +153,19 @@ extension Color {
             blue: Double(b) / 255,
             opacity: Double(a) / 255
         )
+    }
+}
+
+// MARK: - Preview
+struct MainView_Previews: PreviewProvider {
+    static var previews: some View {
+        // Create a mock StepModel for preview
+        let mockStepModel = StepModel()
+        mockStepModel.todaySteps = 10000
+        mockStepModel.goalSteps = 10000
+        
+        return MainView()
+            .environmentObject(mockStepModel)
+            .preferredColorScheme(.dark)
     }
 }
