@@ -161,7 +161,7 @@ struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         // Create a mock StepModel for preview
         let mockStepModel = StepModel()
-        mockStepModel.todaySteps = 10000
+        mockStepModel.todaySteps = 8888
         mockStepModel.goalSteps = 10000
         
         return MainView()

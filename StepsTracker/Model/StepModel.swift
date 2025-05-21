@@ -12,7 +12,7 @@ class StepModel: ObservableObject {
     @Published var isUpdating = false
     
     init() {
-        checkAuthorizationStatus()
+        requestHealthKitPermission()
     }
     
     private func checkAuthorizationStatus() {
