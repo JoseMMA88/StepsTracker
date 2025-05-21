@@ -19,7 +19,7 @@ class StepModel: ObservableObject {
         if CMPedometer.isStepCountingAvailable() {
             startUpdatingSteps()
         } else {
-            print("El conteo de pasos no está disponible en este dispositivo")
+            print("Step counting is not available on this device")
         }
     }
     
@@ -28,12 +28,12 @@ class StepModel: ObservableObject {
     }
     
     func requestHealthKitPermission() {
-        // Comprobar si HealthKit está disponible
+        // Check if HealthKit is available
         if HKHealthStore.isHealthDataAvailable() {
-            // Definir los tipos de datos que queremos leer
+            // Define the data types we want to read
             let types = Set([HKObjectType.quantityType(forIdentifier: .stepCount)!])
             
-            // Solicitar autorización
+            // Request authorization
             healthStore.requestAuthorization(toShare: nil, read: types) { [weak self] success, error in
                 if success {
                     DispatchQueue.main.async {
@@ -41,14 +41,14 @@ class StepModel: ObservableObject {
                     }
                 } else {
                     if let error = error {
-                        print("Error al solicitar permiso HealthKit: \(error.localizedDescription)")
+                        print("Error requesting HealthKit permission: \(error.localizedDescription)")
                     }
-                    // Usar pedómetro como respaldo
+                    // Use pedometer as fallback
                     self?.checkPedometerAvailability()
                 }
             }
         } else {
-            // HealthKit no disponible, usar pedómetro
+            // HealthKit not available, use pedometer
             checkPedometerAvailability()
         }
     }
@@ -57,24 +57,24 @@ class StepModel: ObservableObject {
         if CMPedometer.isStepCountingAvailable() {
             startUpdatingWithPedometer()
         } else {
-            print("El conteo de pasos no está disponible en este dispositivo")
+            print("Step counting is not available on this device")
         }
     }
     
     func startUpdatingSteps() {
         isUpdating = true
         
-        // Configurar consulta de HealthKit para pasos de hoy
+        // Configure HealthKit query for today's steps
         let calendar = Calendar.current
         let now = Date()
         let startOfDay = calendar.startOfDay(for: now)
         
-        // Definir el tipo de datos para pasos
+        // Define step count data type
         guard let stepCountType = HKQuantityType.quantityType(forIdentifier: .stepCount) else {
             return
         }
         
-        // Configurar observador para actualizaciones en tiempo real
+        // Configure observer for real-time updates
         let query = HKObserverQuery(sampleType: stepCountType, predicate: nil) { [weak self] query, completionHandler, error in
             self?.fetchTodaySteps()
             completionHandler()
@@ -82,17 +82,17 @@ class StepModel: ObservableObject {
         
         healthStore.execute(query)
         
-        // También habilitar actualizaciones en segundo plano (opcional)
+        // Enable background updates (optional)
         healthStore.enableBackgroundDelivery(for: stepCountType, frequency: .immediate) { success, error in
             if let error = error {
-                print("Error al habilitar actualizaciones en segundo plano: \(error.localizedDescription)")
+                print("Error enabling background updates: \(error.localizedDescription)")
             }
         }
         
-        // Obtener pasos iniciales
+        // Get initial steps
         fetchTodaySteps()
         
-        // Cargar datos de la semana
+        // Load weekly data
         loadWeeklyData()
     }
     
@@ -105,10 +105,10 @@ class StepModel: ObservableObject {
             return
         }
         
-        // Predicado para obtener pasos solo de hoy
+        // Predicate to get steps only for today
         let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: now, options: .strictStartDate)
         
-        // Consulta de estadísticas
+        // Statistics query
         let query = HKStatisticsQuery(
             quantityType: stepCountType,
             quantitySamplePredicate: predicate,
@@ -116,18 +116,18 @@ class StepModel: ObservableObject {
         ) { [weak self] _, result, error in
             guard let result = result, let sum = result.sumQuantity() else {
                 if let error = error {
-                    print("Error al obtener pasos de HealthKit: \(error.localizedDescription)")
+                    print("Error getting steps from HealthKit: \(error.localizedDescription)")
                 }
                 return
             }
             
-            // Convertir a pasos (enteros)
+            // Convert to steps (integers)
             let steps = Int(sum.doubleValue(for: HKUnit.count()))
             
             DispatchQueue.main.async {
                 self?.todaySteps = steps
                 
-                // Actualizar también los pasos de hoy en el registro semanal
+                // Also update today's steps in weekly record
                 if let startOfDay = calendar.startOfDay(for: now) as NSDate? {
                     self?.weeklySteps[startOfDay as Date] = steps
                 }
@@ -138,7 +138,7 @@ class StepModel: ObservableObject {
     }
     
     func startUpdatingWithPedometer() {
-        // El método original utilizando pedómetro como respaldo
+        // Original method using pedometer as fallback
         isUpdating = true
         
         let calendar = Calendar.current
@@ -150,7 +150,7 @@ class StepModel: ObservableObject {
                     if let data = data {
                         self.todaySteps = data.numberOfSteps.intValue
                     } else if let error = error {
-                        print("Error al contar pasos: \(error.localizedDescription)")
+                        print("Error counting steps: \(error.localizedDescription)")
                     }
                 }
             }
@@ -174,14 +174,14 @@ class StepModel: ObservableObject {
                 continue
             }
             
-            // Predicado para obtener pasos solo de este día
+            // Predicate to get steps only for this day
             let predicate = HKQuery.predicateForSamples(
                 withStart: startOfDay as Date,
                 end: endOfDay as Date,
                 options: .strictStartDate
             )
             
-            // Consulta de estadísticas
+            // Statistics query
             let query = HKStatisticsQuery(
                 quantityType: stepCountType,
                 quantitySamplePredicate: predicate,
@@ -189,12 +189,12 @@ class StepModel: ObservableObject {
             ) { [weak self] _, result, error in
                 guard let result = result, let sum = result.sumQuantity() else {
                     if let error = error {
-                        print("Error al obtener pasos semanales: \(error.localizedDescription)")
+                        print("Error getting weekly steps: \(error.localizedDescription)")
                     }
                     return
                 }
                 
-                // Convertir a pasos (enteros)
+                // Convert to steps (integers)
                 let steps = Int(sum.doubleValue(for: HKUnit.count()))
                 
                 DispatchQueue.main.async {

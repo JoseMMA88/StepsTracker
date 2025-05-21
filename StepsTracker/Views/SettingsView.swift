@@ -8,9 +8,9 @@ struct SettingsView: View {
         NavigationView {
             VStack {
                 Form {
-                    Section(header: Text("Objetivos").foregroundColor(.blue)) {
+                    Section(header: Text("Goals").foregroundColor(.blue)) {
                         HStack {
-                            Text("Meta diaria de pasos")
+                            Text("Daily step goal")
                             Spacer()
                             TextField("10,000", text: $goalSteps)
                                 .keyboardType(.numberPad)
@@ -25,7 +25,7 @@ struct SettingsView: View {
                                 stepModel.goalSteps = newGoal
                             }
                         }) {
-                            Text("Guardar Meta")
+                            Text("Save Goal")
                                 .frame(maxWidth: .infinity)
                                 .padding()
                                 .background(
@@ -40,28 +40,28 @@ struct SettingsView: View {
                         }
                     }
                     
-                    Section(header: Text("Información").foregroundColor(.blue)) {
+                    Section(header: Text("Information").foregroundColor(.blue)) {
                         HStack {
-                            Text("Versión")
+                            Text("Version")
                             Spacer()
                             Text("1.0.0")
                                 .foregroundColor(.gray)
                         }
                         
                         HStack {
-                            Text("Dispositivo")
+                            Text("Device")
                             Spacer()
                             Text(UIDevice.current.model)
                                 .foregroundColor(.gray)
                         }
                     }
                     
-                    Section(header: Text("Acerca de").foregroundColor(.blue)) {
+                    Section(header: Text("About").foregroundColor(.blue)) {
                         VStack(alignment: .leading, spacing: 10) {
                             Text("StepTracker")
                                 .font(.headline)
                             
-                            Text("Esta aplicación utiliza los sensores del dispositivo para hacer un seguimiento preciso de tus pasos y ayudarte a alcanzar tus objetivos diarios de actividad física.")
+                            Text("This application uses device sensors to accurately track your steps and help you achieve your daily physical activity goals.")
                                 .font(.subheadline)
                                 .foregroundColor(.gray)
                         }
@@ -69,7 +69,7 @@ struct SettingsView: View {
                     }
                 }
             }
-            .navigationTitle("Ajustes")
+            .navigationTitle("Settings")
             .background(Color(hex: "101010"))
         }
         .preferredColorScheme(.dark)

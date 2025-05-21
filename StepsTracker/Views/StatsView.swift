@@ -6,17 +6,17 @@ struct StatsView: View {
     
     var body: some View {
         VStack {
-            Text("Estadísticas Semanales")
+            Text("Weekly Statistics")
                 .font(.system(size: 28, weight: .bold, design: .rounded))
                 .foregroundColor(.white)
                 .padding(.top)
             
-            // Gráfico semanal
+            // Weekly chart
             Chart {
                 ForEach(stepModel.weeklySteps.sorted(by: { $0.key < $1.key }), id: \.key) { date, steps in
                     BarMark(
-                        x: .value("Día", formatDay(date)),
-                        y: .value("Pasos", steps)
+                        x: .value("Day", formatDay(date)),
+                        y: .value("Steps", steps)
                     )
                     .foregroundStyle(
                         LinearGradient(
@@ -39,10 +39,10 @@ struct StatsView: View {
             )
             .padding()
             
-            // Resumen de estadísticas
+            // Statistics summary
             VStack(spacing: 20) {
                 StatCard(
-                    title: "Promedio Diario",
+                    title: "Daily Average",
                     value: "\(averageDailySteps())",
                     icon: "figure.walk",
                     color1: .blue,
@@ -50,7 +50,7 @@ struct StatsView: View {
                 )
                 
                 StatCard(
-                    title: "Total Semanal",
+                    title: "Weekly Total",
                     value: "\(totalWeeklySteps())",
                     icon: "flame.fill",
                     color1: .orange,
@@ -58,8 +58,8 @@ struct StatsView: View {
                 )
                 
                 StatCard(
-                    title: "Mejor Día",
-                    value: "\(bestDaySteps()) pasos",
+                    title: "Best Day",
+                    value: "\(bestDaySteps()) steps",
                     icon: "star.fill",
                     color1: .yellow,
                     color2: .orange

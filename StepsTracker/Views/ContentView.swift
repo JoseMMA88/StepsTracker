@@ -8,19 +8,19 @@ struct ContentView: View {
         TabView(selection: $selectedTab) {
             MainView()
                 .tabItem {
-                    Label("Hoy", systemImage: "figure.walk")
+                    Label("Today", systemImage: "figure.walk")
                 }
                 .tag(0)
             
             StatsView()
                 .tabItem {
-                    Label("Estadísticas", systemImage: "chart.bar")
+                    Label("Statistics", systemImage: "chart.bar")
                 }
                 .tag(1)
             
             SettingsView()
                 .tabItem {
-                    Label("Ajustes", systemImage: "gear")
+                    Label("Settings", systemImage: "gear")
                 }
                 .tag(2)
         }

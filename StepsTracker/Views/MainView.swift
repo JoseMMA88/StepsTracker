@@ -11,9 +11,9 @@ struct MainView: View {
             VStack {
                 Spacer()
                 
-                // Círculo principal futurista
+                // Main futuristic circle
                 ZStack {
-                    // Fondo circular
+                    // Circular background
                     Circle()
                         .stroke(
                             LinearGradient(
@@ -24,7 +24,7 @@ struct MainView: View {
                             lineWidth: 20
                         )
                     
-                    // Progreso circular animado
+                    // Animated circular progress
                     Circle()
                         .trim(from: 0, to: CGFloat(stepModel.progress()))
                         .stroke(
@@ -38,7 +38,7 @@ struct MainView: View {
                         .rotationEffect(.degrees(-90))
                         .animation(.spring(), value: stepModel.progress())
                     
-                    // Círculo interior con efecto de brillo
+                    // Inner circle with glow effect
                     Circle()
                         .fill(
                             RadialGradient(
@@ -50,7 +50,7 @@ struct MainView: View {
                         )
                         .padding(30)
                     
-                    // Contador de pasos con animación
+                    // Step counter with animation
                     VStack(spacing: 10) {
                         Text("\(stepModel.todaySteps)")
                             .font(.system(size: 70, weight: .bold, design: .rounded))
@@ -72,7 +72,7 @@ struct MainView: View {
                 .frame(width: min(geometry.size.width * 0.85, 350))
                 .padding()
                 
-                // Meta diaria
+                // Daily goal
                 HStack {
                     Text("Meta diaria:")
                         .font(.headline)
@@ -104,7 +104,7 @@ struct MainView: View {
     }
 }
 
-// Extension para crear colores desde hex
+// Extension to create colors from hex
 extension Color {
     init(hex: String) {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
