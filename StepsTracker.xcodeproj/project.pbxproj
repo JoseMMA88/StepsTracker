@@ -10,9 +10,22 @@
 		14BBE5AE2DD6348C006E84A8 /* StepsTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StepsTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		14D94D3A2DDF1FD2001EC460 /* Exceptions for "StepsTracker" folder in "StepsTracker" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 14BBE5AD2DD6348C006E84A8 /* StepsTracker */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		14BBE5B02DD6348C006E84A8 /* StepsTracker */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				14D94D3A2DDF1FD2001EC460 /* Exceptions for "StepsTracker" folder in "StepsTracker" target */,
+			);
 			path = StepsTracker;
 			sourceTree = "<group>";
 		};
@@ -257,6 +270,7 @@
 				DEVELOPMENT_TEAM = LW9DHQ8252;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = StepsTracker/Info.plist;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "This app needs access to your step data to show your daily progress.";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "This application needs access to update your step data.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -289,6 +303,7 @@
 				DEVELOPMENT_TEAM = LW9DHQ8252;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = StepsTracker/Info.plist;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "This app needs access to your step data to show your daily progress.";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "This application needs access to update your step data.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

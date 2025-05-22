@@ -24,7 +24,9 @@ class StepModel: ObservableObject {
     }
     
     public func progress() -> Double {
-        return min(Double(todaySteps) / Double(goalSteps), 1.0)
+        guard goalSteps > 0, todaySteps >= 0 else { return 0.0 }
+        let progress = Double(todaySteps) / Double(goalSteps)
+        return progress.isFinite ? min(progress, 1.0) : 0.0
     }
     
     private func requestHealthKitPermission() {

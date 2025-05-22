@@ -86,9 +86,11 @@ struct StatsView: View {
     }
     
     private func averageDailySteps() -> Int {
-        if stepModel.weeklySteps.isEmpty { return 0 }
+        guard !stepModel.weeklySteps.isEmpty else { return 0 }
         let total = stepModel.weeklySteps.values.reduce(0, +)
-        return total / max(stepModel.weeklySteps.count, 1)
+        let count = stepModel.weeklySteps.count
+        guard count > 0 else { return 0 }
+        return total / count
     }
     
     private func totalWeeklySteps() -> Int {

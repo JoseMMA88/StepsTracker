@@ -7,6 +7,17 @@ struct MainView: View {
     @EnvironmentObject var stepModel: StepModel
     @State private var showSuccessAnimation = false
     
+    private var progressValue: CGFloat {
+        let progress = stepModel.progress()
+        guard progress.isFinite else { return 0.0 }
+        return CGFloat(progress)
+    }
+    
+    private var percentageText: String {
+        let percentage = Int(progressValue * 100)
+        return "\(percentage)%"
+    }
+    
     var body: some View {
         ZStack {
             // Background gradient
@@ -37,7 +48,7 @@ struct MainView: View {
                             
                             // Animated circular progress
                             Circle()
-                                .trim(from: 0, to: CGFloat(stepModel.progress()))
+                                .trim(from: 0, to: progressValue)
                                 .stroke(
                                     LinearGradient(
                                         gradient: Gradient(colors: stepModel.todaySteps >= stepModel.goalSteps ? [.green, .green.opacity(0.8)] : [.blue, .purple]),
@@ -47,7 +58,7 @@ struct MainView: View {
                                     style: StrokeStyle(lineWidth: 20, lineCap: .round)
                                 )
                                 .rotationEffect(.degrees(-90))
-                                .animation(.spring(), value: stepModel.progress())
+                                .animation(.spring(), value: progressValue)
                                 .onChange(of: stepModel.todaySteps) { oldValue, newValue in
                                     if newValue >= stepModel.goalSteps {
                                         withAnimation(.spring(response: 0.6, dampingFraction: 0.6)) {
@@ -98,7 +109,7 @@ struct MainView: View {
                                     .font(.headline)
                                     .foregroundColor(.gray)
                                 
-                                Text("\(Int(stepModel.progress() * 100))%")
+                                Text(percentageText)
                                     .font(.title2)
                                     .fontWeight(.semibold)
                                     .foregroundColor(.gray.opacity(0.5))
