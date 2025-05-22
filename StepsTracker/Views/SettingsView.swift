@@ -7,17 +7,17 @@ struct SettingsView: View {
     @FocusState private var isGoalFieldFocused: Bool
     
     private func updateGoalSteps() {
-        // Asegurarse de que el valor sea un número válido
+        // Ensure the value is a valid number
         let filtered = tempGoalSteps.filter { $0.isNumber }
         
-        // Si el valor está vacío o no es un número válido, restaurar el valor anterior
+        // If the value is empty or not a valid number, restore the previous value
         guard !filtered.isEmpty, let newGoal = Int(filtered), newGoal > 0 else {
             tempGoalSteps = "\(stepModel.goalSteps)"
             isGoalFieldFocused = false
             return
         }
         
-        // Actualizar el valor solo si es válido
+        // Update the value only if it's valid
         stepModel.goalSteps = newGoal
         tempGoalSteps = "\(newGoal)"
         isGoalFieldFocused = false
@@ -26,7 +26,7 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                // Vista de fondo que captura los toques
+                // Background view that captures touches
                 Color.clear
                     .contentShape(Rectangle())
                     .onTapGesture {
@@ -35,29 +35,29 @@ struct SettingsView: View {
                 
                 VStack {
                     Form {
-                        Section(header: Text("Goals").foregroundColor(.blue)) {
+                        Section(header: Text("Goals".localized).foregroundColor(.blue)) {
                             HStack {
-                                Text("Daily step goal")
+                                Text("Daily step goal".localized)
                                 Spacer()
-                                TextField("10,000", text: $tempGoalSteps)
+                                TextField("10,000".localized, text: $tempGoalSteps)
                                     .keyboardType(.numberPad)
                                     .multilineTextAlignment(.trailing)
                                     .focused($isGoalFieldFocused)
                                     .onChange(of: tempGoalSteps) { oldValue, newValue in
-                                        // Filtrar caracteres no numéricos mientras se escribe
+                                        // Filter non-numeric characters while typing
                                         let filtered = newValue.filter { $0.isNumber }
                                         if filtered != newValue {
                                             tempGoalSteps = filtered
                                         }
                                     }
                                     .onAppear {
-                                        // Inicializar con el valor actual
+                                        // Initialize with current value
                                         tempGoalSteps = "\(stepModel.goalSteps)"
                                     }
                             }
                             
                             Button(action: updateGoalSteps) {
-                                Text("Save Goal")
+                                Text("Save Goal".localized)
                                     .frame(maxWidth: .infinity)
                                     .padding()
                                     .background(
@@ -72,28 +72,40 @@ struct SettingsView: View {
                             }
                         }
                         
-                        Section(header: Text("Information").foregroundColor(.blue)) {
+                        Section(header: Text("Information".localized).foregroundColor(.blue)) {
                             HStack {
-                                Text("Version")
+                                Text("Version".localized)
                                 Spacer()
-                                Text("1.0.0")
+                                Text("1.0.0".localized)
                                     .foregroundColor(.gray)
                             }
                             
                             HStack {
-                                Text("Device")
+                                Text("Device".localized)
                                 Spacer()
                                 Text(UIDevice.current.model)
                                     .foregroundColor(.gray)
                             }
                         }
                         
-                        Section(header: Text("About").foregroundColor(.blue)) {
+                        Section(header: Text("Privacy".localized).foregroundColor(.blue)) {
                             VStack(alignment: .leading, spacing: 10) {
-                                Text("StepTracker")
+                                Text("Data Privacy".localized)
                                     .font(.headline)
                                 
-                                Text("This application uses device sensors to accurately track your steps and help you achieve your daily physical activity goals.")
+                                Text("Your step data is stored locally on your device and is never shared with third parties. We only use this data to provide you with accurate step tracking and statistics.".localized)
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            }
+                            .padding(.vertical, 8)
+                        }
+                        
+                        Section(header: Text("About".localized).foregroundColor(.blue)) {
+                            VStack(alignment: .leading, spacing: 10) {
+                                Text("StepTracker".localized)
+                                    .font(.headline)
+                                
+                                Text("This application uses device sensors to accurately track your steps and help you achieve your daily physical activity goals.".localized)
                                     .font(.subheadline)
                                     .foregroundColor(.gray)
                             }
@@ -101,7 +113,7 @@ struct SettingsView: View {
                         }
                     }
                 }
-                .navigationTitle("Settings")
+                .navigationTitle("Settings".localized)
                 .background(Color(hex: "101010"))
             }
         }
@@ -109,7 +121,7 @@ struct SettingsView: View {
         .toolbar {
             ToolbarItemGroup(placement: .keyboard) {
                 Spacer()
-                Button("Done") {
+                Button("Done".localized) {
                     updateGoalSteps()
                 }
             }

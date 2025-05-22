@@ -5,6 +5,7 @@ import HealthKit
 class StepModel: ObservableObject {
     private let pedometer = CMPedometer()
     private let healthStore = HKHealthStore()
+    private let notificationManager = NotificationManager.shared
     
     @Published var todaySteps: Int = 0
     @Published var goalSteps: Int = 10000
@@ -13,6 +14,8 @@ class StepModel: ObservableObject {
     
     init() {
         requestHealthKitPermission()
+        notificationManager.requestAuthorization()
+        notificationManager.scheduleDailyReminder()
     }
     
     private func checkAuthorizationStatus() {
@@ -122,7 +125,13 @@ class StepModel: ObservableObject {
             let steps = Int(sum.doubleValue(for: HKUnit.count()))
             
             DispatchQueue.main.async {
+                let oldSteps = self?.todaySteps ?? 0
                 self?.todaySteps = steps
+                
+                // Check if goal was just achieved
+                if oldSteps < (self?.goalSteps ?? 0) && steps >= (self?.goalSteps ?? 0) {
+                    self?.notificationManager.scheduleGoalAchievedNotification()
+                }
                 
                 // Also update today's steps in weekly record
                 if let startOfDay = calendar.startOfDay(for: now) as NSDate? {

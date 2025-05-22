@@ -6,7 +6,7 @@ struct StatsView: View {
     
     var body: some View {
         VStack {
-            Text("Weekly Statistics")
+            Text("Weekly Statistics".localized)
                 .font(.system(size: 28, weight: .bold, design: .rounded))
                 .foregroundColor(.white)
                 .padding(.top)
@@ -15,8 +15,8 @@ struct StatsView: View {
             Chart {
                 ForEach(stepModel.weeklySteps.sorted(by: { $0.key < $1.key }), id: \.key) { date, steps in
                     BarMark(
-                        x: .value("Day", formatDay(date)),
-                        y: .value("Steps", steps)
+                        x: .value("Day".localized, formatDay(date)),
+                        y: .value("Steps".localized, steps)
                     )
                     .foregroundStyle(
                         LinearGradient(
@@ -42,7 +42,7 @@ struct StatsView: View {
             // Statistics summary
             VStack(spacing: 20) {
                 StatCard(
-                    title: "Daily Average",
+                    title: "Daily Average".localized,
                     value: "\(averageDailySteps())",
                     icon: "figure.walk",
                     color1: .blue,
@@ -50,7 +50,7 @@ struct StatsView: View {
                 )
                 
                 StatCard(
-                    title: "Weekly Total",
+                    title: "Weekly Total".localized,
                     value: "\(totalWeeklySteps())",
                     icon: "flame.fill",
                     color1: .orange,
@@ -58,8 +58,8 @@ struct StatsView: View {
                 )
                 
                 StatCard(
-                    title: "Best Day",
-                    value: "\(bestDaySteps()) steps",
+                    title: "Best Day".localized,
+                    value: String(format: "%lld steps".localized, bestDaySteps()),
                     icon: "star.fill",
                     color1: .yellow,
                     color2: .orange

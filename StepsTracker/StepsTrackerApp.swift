@@ -11,6 +11,11 @@ import SwiftUI
 struct StepTrackerApp: App {
     @StateObject private var stepModel = StepModel()
     
+    init() {
+        // Inicializar el NotificationManager
+        _ = NotificationManager.shared
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()

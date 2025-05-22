@@ -6,5 +6,7 @@
 	<array>
 		<string>health-kit</string>
 	</array>
+	<key>NSUserNotificationUsageDescription</key>
+	<string>We need to send you notifications to keep you informed about your daily step progress</string>
 </dict>
 </plist>

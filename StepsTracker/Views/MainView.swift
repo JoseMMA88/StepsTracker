@@ -105,7 +105,7 @@ struct MainView: View {
                                     .foregroundColor(.white)
                                     .shadow(color: stepModel.todaySteps >= stepModel.goalSteps ? .green.opacity(0.5) : .blue.opacity(0.5), radius: 10, x: 0, y: 0)
                                 
-                                Text("STEPS")
+                                Text("STEPS".localized)
                                     .font(.headline)
                                     .foregroundColor(.gray)
                                 
@@ -120,11 +120,11 @@ struct MainView: View {
                         
                         // Daily goal display
                         HStack {
-                            Text("Daily goal:")
+                            Text("Daily goal:".localized)
                                 .font(.headline)
                                 .foregroundColor(.gray)
                             
-                            Text("\(stepModel.goalSteps) steps")
+                            Text(String(format: "%lld steps".localized, stepModel.goalSteps))
                                 .font(.headline)
                                 .foregroundColor(stepModel.todaySteps >= stepModel.goalSteps ? .green : .blue)
                         }
