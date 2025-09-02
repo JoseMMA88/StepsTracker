@@ -6,32 +6,75 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		1481943F2E6705B700F86D28 /* StatsCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1481943A2E6705B700F86D28 /* StatsCalculatorTests.swift */; };
+		148194402E6705B700F86D28 /* StepModelFetchTodayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1481943B2E6705B700F86D28 /* StepModelFetchTodayTests.swift */; };
+		148194412E6705B700F86D28 /* StepModelProgressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1481943C2E6705B700F86D28 /* StepModelProgressTests.swift */; };
+		148194422E6705B700F86D28 /* StepModelWeeklyLoadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1481943D2E6705B700F86D28 /* StepModelWeeklyLoadTests.swift */; };
+		148194442E6705D400F86D28 /* StepDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148194432E6705D400F86D28 /* StepDataProvider.swift */; };
+		148194452E6706F100F86D28 /* StepDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148194432E6705D400F86D28 /* StepDataProvider.swift */; };
+		1493B4C32E6700F200448945 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1493B4B62E6700F200448945 /* Preview Assets.xcassets */; };
+		1493B4C42E6700F200448945 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1493B4BD2E6700F200448945 /* Assets.xcassets */; };
+		1493B4C62E6700F200448945 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 1493B4BF2E6700F200448945 /* Localizable.xcstrings */; };
+		1493B4C72E6700F200448945 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1493B4B22E6700F200448945 /* NotificationManager.swift */; };
+		1493B4C82E6700F200448945 /* StatsCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1493B4B32E6700F200448945 /* StatsCalculator.swift */; };
+		1493B4C92E6700F200448945 /* StepModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1493B4B42E6700F200448945 /* StepModel.swift */; };
+		1493B4CA2E6700F200448945 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1493B4B82E6700F200448945 /* ContentView.swift */; };
+		1493B4CB2E6700F200448945 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1493B4B92E6700F200448945 /* MainView.swift */; };
+		1493B4CC2E6700F200448945 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1493B4BA2E6700F200448945 /* SettingsView.swift */; };
+		1493B4CD2E6700F200448945 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1493B4BB2E6700F200448945 /* StatsView.swift */; };
+		1493B4CE2E6700F200448945 /* StepsTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1493B4C12E6700F200448945 /* StepsTrackerApp.swift */; };
+		14E4B7342E670A5D001929E8 /* StepModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1493B4B42E6700F200448945 /* StepModel.swift */; };
+		14E4B7352E670AEF001929E8 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1493B4B22E6700F200448945 /* NotificationManager.swift */; };
+		14E4B7362E670B05001929E8 /* StepsTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1493B4C12E6700F200448945 /* StepsTrackerApp.swift */; };
+		14E4B7372E670B17001929E8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1493B4B82E6700F200448945 /* ContentView.swift */; };
+		14E4B7382E670B26001929E8 /* StatsCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1493B4B32E6700F200448945 /* StatsCalculator.swift */; };
+		14E4B7392E670B31001929E8 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1493B4B92E6700F200448945 /* MainView.swift */; };
+		14E4B73A2E670B36001929E8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1493B4BA2E6700F200448945 /* SettingsView.swift */; };
+		14E4B73B2E670B3B001929E8 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1493B4BB2E6700F200448945 /* StatsView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1493B4EB2E67014100448945 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 14BBE5A62DD6348C006E84A8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 14BBE5AD2DD6348C006E84A8;
+			remoteInfo = StepsTracker;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
-		14BBE5AE2DD6348C006E84A8 /* StepsTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StepsTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1481943A2E6705B700F86D28 /* StatsCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsCalculatorTests.swift; sourceTree = "<group>"; };
+		1481943B2E6705B700F86D28 /* StepModelFetchTodayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepModelFetchTodayTests.swift; sourceTree = "<group>"; };
+		1481943C2E6705B700F86D28 /* StepModelProgressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepModelProgressTests.swift; sourceTree = "<group>"; };
+		1481943D2E6705B700F86D28 /* StepModelWeeklyLoadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepModelWeeklyLoadTests.swift; sourceTree = "<group>"; };
+		148194432E6705D400F86D28 /* StepDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepDataProvider.swift; sourceTree = "<group>"; };
+		1493B4B22E6700F200448945 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		1493B4B32E6700F200448945 /* StatsCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsCalculator.swift; sourceTree = "<group>"; };
+		1493B4B42E6700F200448945 /* StepModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepModel.swift; sourceTree = "<group>"; };
+		1493B4B62E6700F200448945 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		1493B4B82E6700F200448945 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1493B4B92E6700F200448945 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		1493B4BA2E6700F200448945 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		1493B4BB2E6700F200448945 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
+		1493B4BD2E6700F200448945 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1493B4BE2E6700F200448945 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1493B4BF2E6700F200448945 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		1493B4C02E6700F200448945 /* StepsTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StepsTracker.entitlements; sourceTree = "<group>"; };
+		1493B4C12E6700F200448945 /* StepsTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsTrackerApp.swift; sourceTree = "<group>"; };
+		14E4B7322E6709DD001929E8 /* StepsTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = StepsTracker.app; path = "/Users/josemanuelmalagonalba/Documents/Projects/Apps/StepsTracker/build/Debug-iphoneos/StepsTracker.app"; sourceTree = "<absolute>"; };
+		14E4B7332E6709DD001929E8 /* StepsTrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = StepsTrackerTests.xctest; path = "/Users/josemanuelmalagonalba/Documents/Projects/Apps/StepsTracker/build/Debug-iphoneos/StepsTracker.app/PlugIns/StepsTrackerTests.xctest"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		14D94D3A2DDF1FD2001EC460 /* Exceptions for "StepsTracker" folder in "StepsTracker" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 14BBE5AD2DD6348C006E84A8 /* StepsTracker */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		14BBE5B02DD6348C006E84A8 /* StepsTracker */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				14D94D3A2DDF1FD2001EC460 /* Exceptions for "StepsTracker" folder in "StepsTracker" target */,
-			);
-			path = StepsTracker;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
-
 /* Begin PBXFrameworksBuildPhase section */
+		1493B4E42E67014100448945 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		14BBE5AB2DD6348C006E84A8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -42,25 +85,93 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1481943E2E6705B700F86D28 /* StepsTrackerTests */ = {
+			isa = PBXGroup;
+			children = (
+				1481943A2E6705B700F86D28 /* StatsCalculatorTests.swift */,
+				1481943B2E6705B700F86D28 /* StepModelFetchTodayTests.swift */,
+				1481943C2E6705B700F86D28 /* StepModelProgressTests.swift */,
+				1481943D2E6705B700F86D28 /* StepModelWeeklyLoadTests.swift */,
+			);
+			path = StepsTrackerTests;
+			sourceTree = "<group>";
+		};
+		1493B4B52E6700F200448945 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1493B4B22E6700F200448945 /* NotificationManager.swift */,
+				1493B4B32E6700F200448945 /* StatsCalculator.swift */,
+				1493B4B42E6700F200448945 /* StepModel.swift */,
+				148194432E6705D400F86D28 /* StepDataProvider.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1493B4B72E6700F200448945 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				1493B4B62E6700F200448945 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		1493B4BC2E6700F200448945 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1493B4B82E6700F200448945 /* ContentView.swift */,
+				1493B4B92E6700F200448945 /* MainView.swift */,
+				1493B4BA2E6700F200448945 /* SettingsView.swift */,
+				1493B4BB2E6700F200448945 /* StatsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		1493B4C22E6700F200448945 /* StepsTracker */ = {
+			isa = PBXGroup;
+			children = (
+				1493B4B52E6700F200448945 /* Model */,
+				1493B4B72E6700F200448945 /* Preview Content */,
+				1493B4BC2E6700F200448945 /* Views */,
+				1493B4BD2E6700F200448945 /* Assets.xcassets */,
+				1493B4BE2E6700F200448945 /* Info.plist */,
+				1493B4BF2E6700F200448945 /* Localizable.xcstrings */,
+				1493B4C02E6700F200448945 /* StepsTracker.entitlements */,
+				1493B4C12E6700F200448945 /* StepsTrackerApp.swift */,
+			);
+			path = StepsTracker;
+			sourceTree = "<group>";
+		};
 		14BBE5A52DD6348C006E84A8 = {
 			isa = PBXGroup;
 			children = (
-				14BBE5B02DD6348C006E84A8 /* StepsTracker */,
-				14BBE5AF2DD6348C006E84A8 /* Products */,
+				1493B4C22E6700F200448945 /* StepsTracker */,
+				1481943E2E6705B700F86D28 /* StepsTrackerTests */,
 			);
-			sourceTree = "<group>";
-		};
-		14BBE5AF2DD6348C006E84A8 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				14BBE5AE2DD6348C006E84A8 /* StepsTracker.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		1493B4E62E67014100448945 /* StepsTrackerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1493B4ED2E67014100448945 /* Build configuration list for PBXNativeTarget "StepsTrackerTests" */;
+			buildPhases = (
+				1493B4E32E67014100448945 /* Sources */,
+				1493B4E42E67014100448945 /* Frameworks */,
+				1493B4E52E67014100448945 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1493B4EC2E67014100448945 /* PBXTargetDependency */,
+			);
+			name = StepsTrackerTests;
+			packageProductDependencies = (
+			);
+			productName = StepsTrackerTests;
+			productReference = 14E4B7332E6709DD001929E8 /* StepsTrackerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		14BBE5AD2DD6348C006E84A8 /* StepsTracker */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14BBE5BC2DD6348D006E84A8 /* Build configuration list for PBXNativeTarget "StepsTracker" */;
@@ -73,14 +184,11 @@
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				14BBE5B02DD6348C006E84A8 /* StepsTracker */,
-			);
 			name = StepsTracker;
 			packageProductDependencies = (
 			);
 			productName = StepsTracker;
-			productReference = 14BBE5AE2DD6348C006E84A8 /* StepsTracker.app */;
+			productReference = 14E4B7322E6709DD001929E8 /* StepsTracker.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -93,6 +201,10 @@
 				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
+					1493B4E62E67014100448945 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 14BBE5AD2DD6348C006E84A8;
+					};
 					14BBE5AD2DD6348C006E84A8 = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -109,36 +221,120 @@
 			mainGroup = 14BBE5A52DD6348C006E84A8;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 14BBE5AF2DD6348C006E84A8 /* Products */;
+			productRefGroup = 14BBE5A52DD6348C006E84A8;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				14BBE5AD2DD6348C006E84A8 /* StepsTracker */,
+				1493B4E62E67014100448945 /* StepsTrackerTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		14BBE5AC2DD6348C006E84A8 /* Resources */ = {
+		1493B4E52E67014100448945 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		14BBE5AC2DD6348C006E84A8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1493B4C32E6700F200448945 /* Preview Assets.xcassets in Resources */,
+				1493B4C42E6700F200448945 /* Assets.xcassets in Resources */,
+				1493B4C62E6700F200448945 /* Localizable.xcstrings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1493B4E32E67014100448945 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				148194452E6706F100F86D28 /* StepDataProvider.swift in Sources */,
+				14E4B7382E670B26001929E8 /* StatsCalculator.swift in Sources */,
+				14E4B7342E670A5D001929E8 /* StepModel.swift in Sources */,
+				1481943F2E6705B700F86D28 /* StatsCalculatorTests.swift in Sources */,
+				148194402E6705B700F86D28 /* StepModelFetchTodayTests.swift in Sources */,
+				14E4B7362E670B05001929E8 /* StepsTrackerApp.swift in Sources */,
+				14E4B7372E670B17001929E8 /* ContentView.swift in Sources */,
+				14E4B7392E670B31001929E8 /* MainView.swift in Sources */,
+				14E4B7352E670AEF001929E8 /* NotificationManager.swift in Sources */,
+				14E4B73B2E670B3B001929E8 /* StatsView.swift in Sources */,
+				14E4B73A2E670B36001929E8 /* SettingsView.swift in Sources */,
+				148194412E6705B700F86D28 /* StepModelProgressTests.swift in Sources */,
+				148194422E6705B700F86D28 /* StepModelWeeklyLoadTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		14BBE5AA2DD6348C006E84A8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1493B4C72E6700F200448945 /* NotificationManager.swift in Sources */,
+				1493B4C82E6700F200448945 /* StatsCalculator.swift in Sources */,
+				1493B4C92E6700F200448945 /* StepModel.swift in Sources */,
+				148194442E6705D400F86D28 /* StepDataProvider.swift in Sources */,
+				1493B4CA2E6700F200448945 /* ContentView.swift in Sources */,
+				1493B4CB2E6700F200448945 /* MainView.swift in Sources */,
+				1493B4CC2E6700F200448945 /* SettingsView.swift in Sources */,
+				1493B4CD2E6700F200448945 /* StatsView.swift in Sources */,
+				1493B4CE2E6700F200448945 /* StepsTrackerApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		1493B4EC2E67014100448945 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 14BBE5AD2DD6348C006E84A8 /* StepsTracker */;
+			targetProxy = 1493B4EB2E67014100448945 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		1493B4EE2E67014100448945 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LW9DHQ8252;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = josemalagon.es.StepsTrackerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StepsTracker.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/StepsTracker";
+			};
+			name = Debug;
+		};
+		1493B4EF2E67014100448945 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LW9DHQ8252;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = josemalagon.es.StepsTrackerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StepsTracker.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/StepsTracker";
+			};
+			name = Release;
+		};
 		14BBE5BA2DD6348D006E84A8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -327,6 +523,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1493B4ED2E67014100448945 /* Build configuration list for PBXNativeTarget "StepsTrackerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1493B4EE2E67014100448945 /* Debug */,
+				1493B4EF2E67014100448945 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		14BBE5A92DD6348C006E84A8 /* Build configuration list for PBXProject "StepsTracker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

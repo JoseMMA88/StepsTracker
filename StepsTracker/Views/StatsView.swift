@@ -85,21 +85,9 @@ struct StatsView: View {
         return formatter.string(from: date)
     }
     
-    private func averageDailySteps() -> Int {
-        guard !stepModel.weeklySteps.isEmpty else { return 0 }
-        let total = stepModel.weeklySteps.values.reduce(0, +)
-        let count = stepModel.weeklySteps.count
-        guard count > 0 else { return 0 }
-        return total / count
-    }
-    
-    private func totalWeeklySteps() -> Int {
-        return stepModel.weeklySteps.values.reduce(0, +)
-    }
-    
-    private func bestDaySteps() -> Int {
-        return stepModel.weeklySteps.values.max() ?? 0
-    }
+    private func averageDailySteps() -> Int { StatsCalculator.averageDailySteps(weeklySteps: stepModel.weeklySteps) }
+    private func totalWeeklySteps() -> Int { StatsCalculator.totalWeeklySteps(weeklySteps: stepModel.weeklySteps) }
+    private func bestDaySteps() -> Int { StatsCalculator.bestDaySteps(weeklySteps: stepModel.weeklySteps) }
 }
 
 struct StatCard: View {

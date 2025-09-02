@@ -6,16 +6,21 @@ class StepModel: ObservableObject {
     private let pedometer = CMPedometer()
     private let healthStore = HKHealthStore()
     private let notificationManager = NotificationManager.shared
+    private let stepDataProvider: StepDataProviding
     
     @Published var todaySteps: Int = 0
     @Published var goalSteps: Int = 10000
     @Published var weeklySteps: [Date: Int] = [:]
     @Published var isUpdating = false
     
-    init() {
-        requestHealthKitPermission()
-        notificationManager.requestAuthorization()
-        notificationManager.scheduleDailyReminder()
+    // Allow tests to construct without kicking off side effects
+    init(enableSideEffects: Bool = true, stepDataProvider: StepDataProviding? = nil) {
+        self.stepDataProvider = stepDataProvider ?? HealthKitStepDataProvider(healthStore: healthStore)
+        if enableSideEffects {
+            requestHealthKitPermission()
+            notificationManager.requestAuthorization()
+            notificationManager.scheduleDailyReminder()
+        }
     }
     
     private func checkAuthorizationStatus() {
@@ -100,47 +105,16 @@ class StepModel: ObservableObject {
         let calendar = Calendar.current
         let now = Date()
         let startOfDay = calendar.startOfDay(for: now)
-        
-        guard let stepCountType = HKQuantityType.quantityType(forIdentifier: .stepCount) else {
-            return
-        }
-        
-        // Predicate to get steps only for today
-        let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: now, options: .strictStartDate)
-        
-        // Statistics query
-        let query = HKStatisticsQuery(
-            quantityType: stepCountType,
-            quantitySamplePredicate: predicate,
-            options: .cumulativeSum
-        ) { [weak self] _, result, error in
-            guard let result = result, let sum = result.sumQuantity() else {
-                if let error = error {
-                    print("Error getting steps from HealthKit: \(error.localizedDescription)")
-                }
-                return
-            }
-            
-            // Convert to steps (integers)
-            let steps = Int(sum.doubleValue(for: HKUnit.count()))
-            
+        stepDataProvider.stepsForDay(startOfDay) { [weak self] steps in
             DispatchQueue.main.async {
                 let oldSteps = self?.todaySteps ?? 0
                 self?.todaySteps = steps
-                
-                // Check if goal was just achieved
                 if oldSteps < (self?.goalSteps ?? 0) && steps >= (self?.goalSteps ?? 0) {
                     self?.notificationManager.scheduleGoalAchievedNotification()
                 }
-                
-                // Also update today's steps in weekly record
-                if let startOfDay = calendar.startOfDay(for: now) as NSDate? {
-                    self?.weeklySteps[startOfDay as Date] = steps
-                }
+                self?.weeklySteps[startOfDay] = steps
             }
         }
-        
-        healthStore.execute(query)
     }
     
     private func startUpdatingWithPedometer() {
@@ -168,47 +142,14 @@ class StepModel: ObservableObject {
     public func loadWeeklyData() {
         let calendar = Calendar.current
         let today = Date()
-        
-        guard let stepCountType = HKQuantityType.quantityType(forIdentifier: .stepCount) else {
-            return
-        }
-        
         for dayOffset in 0..<7 {
-            guard let date = calendar.date(byAdding: .day, value: -dayOffset, to: today),
-                  let startOfDay = calendar.startOfDay(for: date) as NSDate?,
-                  let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay as Date) as NSDate? else {
-                continue
-            }
-            
-            // Predicate to get steps only for this day
-            let predicate = HKQuery.predicateForSamples(
-                withStart: startOfDay as Date,
-                end: endOfDay as Date,
-                options: .strictStartDate
-            )
-            
-            // Statistics query
-            let query = HKStatisticsQuery(
-                quantityType: stepCountType,
-                quantitySamplePredicate: predicate,
-                options: .cumulativeSum
-            ) { [weak self] _, result, error in
-                guard let result = result, let sum = result.sumQuantity() else {
-                    if let error = error {
-                        print("Error getting weekly steps: \(error.localizedDescription)")
-                    }
-                    return
-                }
-                
-                // Convert to steps (integers)
-                let steps = Int(sum.doubleValue(for: HKUnit.count()))
-                
+            guard let date = calendar.date(byAdding: .day, value: -dayOffset, to: today) else { continue }
+            let startOfDay = calendar.startOfDay(for: date)
+            stepDataProvider.stepsForDay(startOfDay) { [weak self] steps in
                 DispatchQueue.main.async {
-                    self?.weeklySteps[startOfDay as Date] = steps
+                    self?.weeklySteps[startOfDay] = steps
                 }
             }
-            
-            healthStore.execute(query)
         }
     }
 }
