@@ -3,12 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>UIBackgroundModes</key>
-	<array>
-		<string>health-kit</string>
-	</array>
+	<array/>
 	<key>NSUserNotificationUsageDescription</key>
 	<string>We need to send you notifications to keep you informed about your daily step progress</string>
 	<key>NSMotionUsageDescription</key>
 	<string>We need access to motion data to accurately track your steps and help you achieve your daily physical activity goals</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>we need access to healthkit share function to accurately track your steps and help you achieve your daily physical activity goals</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>we need access to healthkit updating function to accurately track your steps and help you achieve your daily physical activity goals</string>
 </dict>
 </plist>
