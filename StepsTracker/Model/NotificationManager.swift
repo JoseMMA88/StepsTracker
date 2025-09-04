@@ -4,12 +4,14 @@ import UserNotifications
 class NotificationManager: NSObject, ObservableObject, UNUserNotificationCenterDelegate {
     static let shared = NotificationManager()
     
+    // MARK: - Initializer
     override init() {
         super.init()
         UNUserNotificationCenter.current().delegate = self
     }
     
-    func requestAuthorization() {
+    // MARK: - Functions
+    public func requestAuthorization() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
             if granted {
                 print("Notification permission granted")
@@ -19,7 +21,7 @@ class NotificationManager: NSObject, ObservableObject, UNUserNotificationCenterD
         }
     }
     
-    func scheduleGoalAchievedNotification() {
+    public func scheduleGoalAchievedNotification() {
         let content = UNMutableNotificationContent()
         content.title = "Goal Achieved! 🎉".localized
         content.body = "Congratulations! You've reached your daily step goal.".localized
@@ -31,7 +33,7 @@ class NotificationManager: NSObject, ObservableObject, UNUserNotificationCenterD
         UNUserNotificationCenter.current().add(request)
     }
     
-    func scheduleDailyReminder() {
+    public func scheduleDailyReminder() {
         let content = UNMutableNotificationContent()
         content.title = "Stay Active! 🚶‍♂️".localized
         content.body = "Don't forget to stay active today. Every step counts towards your daily goal.".localized
@@ -48,7 +50,7 @@ class NotificationManager: NSObject, ObservableObject, UNUserNotificationCenterD
         UNUserNotificationCenter.current().add(request)
     }
     
-    // MARK: - UNUserNotificationCenterDelegate
+    // MARK: UNUserNotificationCenterDelegate
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,

@@ -1,20 +1,25 @@
 import Foundation
 import HealthKit
 
+// MARK: - Protocol
 /// Abstraction to fetch steps for a given day, to enable testing.
 protocol StepDataProviding {
     /// Returns the total number of steps for the provided calendar day.
     func stepsForDay(_ date: Date, completion: @escaping (Int) -> Void)
 }
 
+
 /// HealthKit-backed implementation of StepDataProviding.
 final class HealthKitStepDataProvider: StepDataProviding {
+    // MARK: - Properties
     private let healthStore: HKHealthStore
 
+    // MARK: - Initializer
     init(healthStore: HKHealthStore) {
         self.healthStore = healthStore
     }
 
+    // MARK: - Functions
     func stepsForDay(_ date: Date, completion: @escaping (Int) -> Void) {
         guard let stepCountType = HKQuantityType.quantityType(forIdentifier: .stepCount) else {
             completion(0)

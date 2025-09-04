@@ -110,6 +110,17 @@
         }
       }
     },
+    "Data Privacy" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacidad de datos"
+          }
+        }
+      }
+    },
     "Day" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -117,6 +128,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Día"
+          }
+        }
+      }
+    },
+    "Device" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dispositivo"
           }
         }
       }
@@ -172,6 +194,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Información"
+          }
+        }
+      }
+    },
+    "Invalid number" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Número inválido"
+          }
+        }
+      }
+    },
+    "Ok" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ok"
+          }
+        }
+      }
+    },
+    "Please enter a valid number between 1 and 100,000." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por favor introduzca un número entre 1 y 100.000"
+          }
+        }
+      }
+    },
+    "Privacy" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacidad"
           }
         }
       }
@@ -312,39 +378,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Total semanal"
-          }
-        }
-      }
-    },
-    "Device" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dispositivo"
-          }
-        }
-      }
-    },
-    "Privacy" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Privacidad"
-          }
-        }
-      }
-    },
-    "Data Privacy" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Privacidad de datos"
           }
         }
       }

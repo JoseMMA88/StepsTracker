@@ -1,28 +1,14 @@
 import SwiftUI
 
 struct SettingsView: View {
+    // MARK: - Properties
     @EnvironmentObject var stepModel: StepModel
     @State private var goalSteps: String = ""
     @State private var tempGoalSteps: String = ""
+    @State private var showAlert: Bool = false
     @FocusState private var isGoalFieldFocused: Bool
     
-    private func updateGoalSteps() {
-        // Ensure the value is a valid number
-        let filtered = tempGoalSteps.filter { $0.isNumber }
-        
-        // If the value is empty or not a valid number, restore the previous value
-        guard !filtered.isEmpty, let newGoal = Int(filtered), newGoal > 0 else {
-            tempGoalSteps = "\(stepModel.goalSteps)"
-            isGoalFieldFocused = false
-            return
-        }
-        
-        // Update the value only if it's valid
-        stepModel.goalSteps = newGoal
-        tempGoalSteps = "\(newGoal)"
-        isGoalFieldFocused = false
-    }
-    
+    // MARK: - Views
     var body: some View {
         NavigationView {
             ZStack {
@@ -126,5 +112,31 @@ struct SettingsView: View {
                 }
             }
         }
+        .alert("invalid_number_title".localized, isPresented: $showAlert) {
+            Button("Ok".localized) {
+                showAlert = false
+            }
+        } message: {
+            Text("Please enter a valid number between 1 and 100,000.".localized)
+        }
     }
-} 
+    
+    // MARK: - Functions
+    private func updateGoalSteps() {
+        // Ensure the value is a valid number
+        let filtered = tempGoalSteps.filter { $0.isNumber }
+        
+        // If the value is empty or not a valid number, restore the previous value
+        guard !filtered.isEmpty, let newGoal = Int(filtered), newGoal > 0 && newGoal <= 100000 else {
+            showAlert = true
+            tempGoalSteps = "\(stepModel.goalSteps)"
+            isGoalFieldFocused = false
+            return
+        }
+        
+        // Update the value only if it's valid
+        stepModel.goalSteps = newGoal
+        tempGoalSteps = "\(newGoal)"
+        isGoalFieldFocused = false
+    }
+}

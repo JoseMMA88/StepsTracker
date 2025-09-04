@@ -3,6 +3,8 @@ import CoreMotion
 import HealthKit
 
 class StepModel: ObservableObject {
+    
+    // MARK: - Properties
     private let pedometer = CMPedometer()
     private let healthStore = HKHealthStore()
     private let notificationManager = NotificationManager.shared
@@ -13,7 +15,7 @@ class StepModel: ObservableObject {
     @Published var weeklySteps: [Date: Int] = [:]
     @Published var isUpdating = false
     
-    // Allow tests to construct without kicking off side effects
+    // MARK: - Initializer
     init(enableSideEffects: Bool = true, stepDataProvider: StepDataProviding? = nil) {
         self.stepDataProvider = stepDataProvider ?? HealthKitStepDataProvider(healthStore: healthStore)
         if enableSideEffects {
@@ -23,6 +25,7 @@ class StepModel: ObservableObject {
         }
     }
     
+    // MARK: - Functions
     private func checkAuthorizationStatus() {
         if CMPedometer.isStepCountingAvailable() {
             startUpdatingSteps()

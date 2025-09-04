@@ -2,8 +2,10 @@ import SwiftUI
 import Charts
 
 struct StatsView: View {
+    // MARK: - Properties
     @EnvironmentObject var stepModel: StepModel
     
+    // MARK: - Views
     var body: some View {
         VStack {
             Text("Weekly Statistics".localized)
