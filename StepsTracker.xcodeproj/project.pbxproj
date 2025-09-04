@@ -65,9 +65,9 @@
 		1493B4BF2E6700F200448945 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		1493B4C02E6700F200448945 /* StepsTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StepsTracker.entitlements; sourceTree = "<group>"; };
 		1493B4C12E6700F200448945 /* StepsTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsTrackerApp.swift; sourceTree = "<group>"; };
-		14DE8FEC2E69A7940089F9C8 /* StepsTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = StepsTracker.app; path = "/Users/josemanuelmalagonalba/Documents/Projects/Apps/StepsTracker/build/Debug-iphoneos/StepsTracker.app"; sourceTree = "<absolute>"; };
 		14DE8FED2E69A7940089F9C8 /* StepsTrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = StepsTrackerTests.xctest; path = "/Users/josemanuelmalagonalba/Documents/Projects/Apps/StepsTracker/build/Debug-iphoneos/StepsTracker.app/PlugIns/StepsTrackerTests.xctest"; sourceTree = "<absolute>"; };
 		14DE8FF22E69B9FF0089F9C8 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
+		14DE8FF52E69BF280089F9C8 /* StepsTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StepsTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +150,7 @@
 			children = (
 				1493B4C22E6700F200448945 /* StepsTracker */,
 				1481943E2E6705B700F86D28 /* StepsTrackerTests */,
+				14DE8FF52E69BF280089F9C8 /* StepsTracker.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -200,7 +201,7 @@
 			packageProductDependencies = (
 			);
 			productName = StepsTracker;
-			productReference = 14DE8FEC2E69A7940089F9C8 /* StepsTracker.app */;
+			productReference = 14DE8FF52E69BF280089F9C8 /* StepsTracker.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -475,7 +476,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = StepsTracker/StepsTracker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"StepsTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = LW9DHQ8252;
 				ENABLE_PREVIEWS = YES;
@@ -508,7 +509,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = StepsTracker/StepsTracker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"StepsTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = LW9DHQ8252;
 				ENABLE_PREVIEWS = YES;

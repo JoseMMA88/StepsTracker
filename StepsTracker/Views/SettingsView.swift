@@ -112,7 +112,7 @@ struct SettingsView: View {
                 }
             }
         }
-        .alert("invalid_number_title".localized, isPresented: $showAlert) {
+        .alert("Invalid number".localized, isPresented: $showAlert) {
             Button("Ok".localized) {
                 showAlert = false
             }
