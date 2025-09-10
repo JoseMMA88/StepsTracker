@@ -392,6 +392,17 @@
           }
         }
       }
+    },
+    "Privacy Policy" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Política de Privacidad"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

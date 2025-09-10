@@ -15,6 +15,8 @@ class StepModel: ObservableObject {
     @Published var weeklySteps: [Date: Int] = [:]
     @Published var isUpdating = false
     
+    
+    
     // MARK: - Initializer
     init(enableSideEffects: Bool = true, stepDataProvider: StepDataProviding? = nil) {
         self.stepDataProvider = stepDataProvider ?? HealthKitStepDataProvider(healthStore: healthStore)

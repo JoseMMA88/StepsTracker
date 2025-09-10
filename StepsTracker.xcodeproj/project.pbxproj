@@ -47,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1431F9192E717A7300D05B4C /* StepsTrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = StepsTrackerTests.xctest; path = "/Users/josemanuelmalagonalba/Documents/Projects/Apps/StepsTracker/build/Debug-iphoneos/StepsTracker.app/PlugIns/StepsTrackerTests.xctest"; sourceTree = "<absolute>"; };
 		1481943A2E6705B700F86D28 /* StatsCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsCalculatorTests.swift; sourceTree = "<group>"; };
 		1481943B2E6705B700F86D28 /* StepModelFetchTodayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepModelFetchTodayTests.swift; sourceTree = "<group>"; };
 		1481943C2E6705B700F86D28 /* StepModelProgressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepModelProgressTests.swift; sourceTree = "<group>"; };
@@ -65,9 +66,8 @@
 		1493B4BF2E6700F200448945 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		1493B4C02E6700F200448945 /* StepsTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StepsTracker.entitlements; sourceTree = "<group>"; };
 		1493B4C12E6700F200448945 /* StepsTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsTrackerApp.swift; sourceTree = "<group>"; };
-		14DE8FED2E69A7940089F9C8 /* StepsTrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = StepsTrackerTests.xctest; path = "/Users/josemanuelmalagonalba/Documents/Projects/Apps/StepsTracker/build/Debug-iphoneos/StepsTracker.app/PlugIns/StepsTrackerTests.xctest"; sourceTree = "<absolute>"; };
 		14DE8FF22E69B9FF0089F9C8 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
-		14DE8FF52E69BF280089F9C8 /* StepsTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StepsTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		14DE8FF52E69BF280089F9C8 /* StepsTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = StepsTracker.app; path = "/Users/josemanuelmalagonalba/Documents/Projects/Apps/StepsTracker/build/Debug-iphoneos/StepsTracker.app"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,7 +150,6 @@
 			children = (
 				1493B4C22E6700F200448945 /* StepsTracker */,
 				1481943E2E6705B700F86D28 /* StepsTrackerTests */,
-				14DE8FF52E69BF280089F9C8 /* StepsTracker.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -182,7 +181,7 @@
 			packageProductDependencies = (
 			);
 			productName = StepsTrackerTests;
-			productReference = 14DE8FED2E69A7940089F9C8 /* StepsTrackerTests.xctest */;
+			productReference = 1431F9192E717A7300D05B4C /* StepsTrackerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		14BBE5AD2DD6348C006E84A8 /* StepsTracker */ = {

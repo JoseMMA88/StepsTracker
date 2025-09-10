@@ -84,6 +84,20 @@ struct SettingsView: View {
                                     .foregroundColor(.gray)
                             }
                             .padding(.vertical, 8)
+                            
+                            Button(action: {
+                                if let url = URL(string: "https://josemalagon.github.io/stepstracker-privacy") {
+                                    UIApplication.shared.open(url)
+                                }
+                            }) {
+                                HStack {
+                                    Text("Privacy Policy".localized)
+                                        .foregroundColor(.blue)
+                                    Spacer()
+                                    Image(systemName: "arrow.up.right.square")
+                                        .foregroundColor(.blue)
+                                }
+                            }
                         }
                         
                         Section(header: Text("About".localized).foregroundColor(.blue)) {

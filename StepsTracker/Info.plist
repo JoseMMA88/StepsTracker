@@ -7,12 +7,12 @@
 	<key>UIBackgroundModes</key>
 	<array/>
 	<key>NSUserNotificationUsageDescription</key>
-	<string>We need to send you notifications to keep you informed about your daily step progress</string>
+	<string>StepsTracker sends you encouraging notifications when you reach your daily step goals and helpful reminders to stay active throughout the day.</string>
 	<key>NSMotionUsageDescription</key>
-	<string>We need access to motion data to accurately track your steps and help you achieve your daily physical activity goals</string>
+	<string>StepsTracker accesses your device's motion sensors to accurately count your steps and provide real-time progress tracking toward your daily fitness goals.</string>
 	<key>NSHealthShareUsageDescription</key>
-	<string>we need access to healthkit share function to accurately track your steps and help you achieve your daily physical activity goals</string>
+	<string>StepsTracker reads your step data from HealthKit to provide comprehensive step tracking, daily progress monitoring, and weekly statistics to help you maintain an active lifestyle.</string>
 	<key>NSHealthUpdateUsageDescription</key>
-	<string>we need access to healthkit updating function to accurately track your steps and help you achieve your daily physical activity goals</string>
+	<string>StepsTracker updates your step data in HealthKit to ensure accurate synchronization across all your health and fitness apps.</string>
 </dict>
 </plist>
