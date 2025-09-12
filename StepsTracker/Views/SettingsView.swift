@@ -86,7 +86,7 @@ struct SettingsView: View {
                             .padding(.vertical, 8)
                             
                             Button(action: {
-                                if let url = URL(string: "https://josemalagon.github.io/stepstracker-privacy") {
+                                if let url = URL(string: "https://josemma88.github.io/stepstracker-privacy/") {
                                     UIApplication.shared.open(url)
                                 }
                             }) {
