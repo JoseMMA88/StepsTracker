@@ -47,7 +47,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1431F9192E717A7300D05B4C /* StepsTrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = StepsTrackerTests.xctest; path = "/Users/josemanuelmalagonalba/Documents/Projects/Apps/StepsTracker/build/Debug-iphoneos/StepsTracker.app/PlugIns/StepsTrackerTests.xctest"; sourceTree = "<absolute>"; };
+		1431F91C2E7823BA00D05B4C /* StepsTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StepsTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1431F91D2E7823BA00D05B4C /* StepsTrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StepsTrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1481943A2E6705B700F86D28 /* StatsCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsCalculatorTests.swift; sourceTree = "<group>"; };
 		1481943B2E6705B700F86D28 /* StepModelFetchTodayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepModelFetchTodayTests.swift; sourceTree = "<group>"; };
 		1481943C2E6705B700F86D28 /* StepModelProgressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepModelProgressTests.swift; sourceTree = "<group>"; };
@@ -67,7 +68,6 @@
 		1493B4C02E6700F200448945 /* StepsTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StepsTracker.entitlements; sourceTree = "<group>"; };
 		1493B4C12E6700F200448945 /* StepsTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsTrackerApp.swift; sourceTree = "<group>"; };
 		14DE8FF22E69B9FF0089F9C8 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
-		14DE8FF52E69BF280089F9C8 /* StepsTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = StepsTracker.app; path = "/Users/josemanuelmalagonalba/Documents/Projects/Apps/StepsTracker/build/Debug-iphoneos/StepsTracker.app"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +150,8 @@
 			children = (
 				1493B4C22E6700F200448945 /* StepsTracker */,
 				1481943E2E6705B700F86D28 /* StepsTrackerTests */,
+				1431F91C2E7823BA00D05B4C /* StepsTracker.app */,
+				1431F91D2E7823BA00D05B4C /* StepsTrackerTests.xctest */,
 			);
 			sourceTree = "<group>";
 		};
@@ -181,7 +183,7 @@
 			packageProductDependencies = (
 			);
 			productName = StepsTrackerTests;
-			productReference = 1431F9192E717A7300D05B4C /* StepsTrackerTests.xctest */;
+			productReference = 1431F91D2E7823BA00D05B4C /* StepsTrackerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		14BBE5AD2DD6348C006E84A8 /* StepsTracker */ = {
@@ -200,7 +202,7 @@
 			packageProductDependencies = (
 			);
 			productName = StepsTracker;
-			productReference = 14DE8FF52E69BF280089F9C8 /* StepsTracker.app */;
+			productReference = 1431F91C2E7823BA00D05B4C /* StepsTracker.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -211,7 +213,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
-				LastUpgradeCheck = 1620;
+				LastUpgradeCheck = 1640;
 				TargetAttributes = {
 					1493B4E62E67014100448945 = {
 						CreatedOnToolsVersion = 16.2;
@@ -319,7 +321,6 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = LW9DHQ8252;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = josemalagon.es.StepsTrackerTests;
@@ -337,7 +338,6 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = LW9DHQ8252;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = josemalagon.es.StepsTrackerTests;
@@ -354,6 +354,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -384,6 +385,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = LW9DHQ8252;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -417,6 +419,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -447,6 +450,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = LW9DHQ8252;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -477,7 +481,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"StepsTracker/Preview Content\"";
-				DEVELOPMENT_TEAM = LW9DHQ8252;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StepsTracker/Info.plist;
@@ -510,7 +513,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"StepsTracker/Preview Content\"";
-				DEVELOPMENT_TEAM = LW9DHQ8252;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = StepsTracker/Info.plist;

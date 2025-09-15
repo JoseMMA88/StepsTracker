@@ -403,6 +403,28 @@
           }
         }
       }
+    },
+    "Selected Day" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Día seleccionado"
+          }
+        }
+      }
+    },
+    "Tap the same day to deselect" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toca el mismo día para deseleccionar"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

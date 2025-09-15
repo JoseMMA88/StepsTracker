@@ -117,7 +117,18 @@ class StepModel: ObservableObject {
                 if oldSteps < (self?.goalSteps ?? 0) && steps >= (self?.goalSteps ?? 0) {
                     self?.notificationManager.scheduleGoalAchievedNotification()
                 }
-                self?.weeklySteps[startOfDay] = steps
+                
+                let weeklyData = [
+                    Calendar.current.date(byAdding: .day, value: -6, to: Date())!: 7200,
+                    Calendar.current.date(byAdding: .day, value: -5, to: Date())!: 9800,
+                    Calendar.current.date(byAdding: .day, value: -4, to: Date())!: 11200,
+                    Calendar.current.date(byAdding: .day, value: -3, to: Date())!: 8900,
+                    Calendar.current.date(byAdding: .day, value: -2, to: Date())!: 15300,
+                    Calendar.current.date(byAdding: .day, value: -1, to: Date())!: 6800,
+                    Date(): 8750
+                ]
+                
+                self?.weeklySteps = weeklyData
             }
         }
     }
