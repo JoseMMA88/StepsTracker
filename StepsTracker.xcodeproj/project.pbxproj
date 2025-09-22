@@ -12,6 +12,14 @@
 		1429F8EA2E8164CA00E153A9 /* StepCounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1429F8E82E8164CA00E153A9 /* StepCounterView.swift */; };
 		1429F8ED2E8164DF00E153A9 /* DailyGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1429F8EC2E8164DF00E153A9 /* DailyGoalView.swift */; };
 		1429F8EE2E8164DF00E153A9 /* DailyGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1429F8EC2E8164DF00E153A9 /* DailyGoalView.swift */; };
+		1429F8F32E8172E500E153A9 /* GoalsSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1429F8F22E8172E500E153A9 /* GoalsSectionView.swift */; };
+		1429F8F42E8172E500E153A9 /* GoalsSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1429F8F22E8172E500E153A9 /* GoalsSectionView.swift */; };
+		1429F8F62E8172E600E153A9 /* InformationSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1429F8F52E8172E600E153A9 /* InformationSectionView.swift */; };
+		1429F8F72E8172E600E153A9 /* InformationSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1429F8F52E8172E600E153A9 /* InformationSectionView.swift */; };
+		1429F8F92E8172E800E153A9 /* PrivacySectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1429F8F82E8172E800E153A9 /* PrivacySectionView.swift */; };
+		1429F8FA2E8172E800E153A9 /* PrivacySectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1429F8F82E8172E800E153A9 /* PrivacySectionView.swift */; };
+		1429F8FC2E8172E900E153A9 /* AboutSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1429F8FB2E8172E900E153A9 /* AboutSectionView.swift */; };
+		1429F8FD2E8172E900E153A9 /* AboutSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1429F8FB2E8172E900E153A9 /* AboutSectionView.swift */; };
 		147101192E815D3200090ACB /* Localized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147101182E815D3200090ACB /* Localized.swift */; };
 		1471011A2E815D3200090ACB /* Localized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147101182E815D3200090ACB /* Localized.swift */; };
 		1481943F2E6705B700F86D28 /* StatsCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1481943A2E6705B700F86D28 /* StatsCalculatorTests.swift */; };
@@ -64,6 +72,10 @@
 /* Begin PBXFileReference section */
 		1429F8E82E8164CA00E153A9 /* StepCounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepCounterView.swift; sourceTree = "<group>"; };
 		1429F8EC2E8164DF00E153A9 /* DailyGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyGoalView.swift; sourceTree = "<group>"; };
+		1429F8F22E8172E500E153A9 /* GoalsSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsSectionView.swift; sourceTree = "<group>"; };
+		1429F8F52E8172E600E153A9 /* InformationSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationSectionView.swift; sourceTree = "<group>"; };
+		1429F8F82E8172E800E153A9 /* PrivacySectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySectionView.swift; sourceTree = "<group>"; };
+		1429F8FB2E8172E900E153A9 /* AboutSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutSectionView.swift; sourceTree = "<group>"; };
 		147101182E815D3200090ACB /* Localized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localized.swift; sourceTree = "<group>"; };
 		1471011B2E815EF700090ACB /* HapticsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsHelper.swift; sourceTree = "<group>"; };
 		1478DEA52E798CC3008763DA /* StepsTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = StepsTracker.app; path = "/Users/josemanuelmalagonalba/Documents/Projects/Apps/StepsTracker/build/Debug-iphoneos/StepsTracker.app"; sourceTree = "<absolute>"; };
@@ -130,6 +142,17 @@
 			path = subviews;
 			sourceTree = "<group>";
 		};
+		1429F8FE2E8172F300E153A9 /* subviews */ = {
+			isa = PBXGroup;
+			children = (
+				1429F8F22E8172E500E153A9 /* GoalsSectionView.swift */,
+				1429F8F52E8172E600E153A9 /* InformationSectionView.swift */,
+				1429F8F82E8172E800E153A9 /* PrivacySectionView.swift */,
+				1429F8FB2E8172E900E153A9 /* AboutSectionView.swift */,
+			);
+			path = subviews;
+			sourceTree = "<group>";
+		};
 		1471011D2E815F4C00090ACB /* mainView */ = {
 			isa = PBXGroup;
 			children = (
@@ -151,6 +174,7 @@
 		1471011F2E815F5C00090ACB /* settingsView */ = {
 			isa = PBXGroup;
 			children = (
+				1429F8FE2E8172F300E153A9 /* subviews */,
 				1493B4BA2E6700F200448945 /* SettingsView.swift */,
 			);
 			path = settingsView;
@@ -189,9 +213,9 @@
 		1493B4BC2E6700F200448945 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				1471011F2E815F5C00090ACB /* settingsView */,
-				1471011E2E815F5200090ACB /* statsView */,
 				1471011D2E815F4C00090ACB /* mainView */,
+				1471011E2E815F5200090ACB /* statsView */,
+				1471011F2E815F5C00090ACB /* settingsView */,
 				1493B4B82E6700F200448945 /* ContentView.swift */,
 			);
 			path = Views;
@@ -341,6 +365,7 @@
 			files = (
 				148194452E6706F100F86D28 /* StepDataProvider.swift in Sources */,
 				14DE8FF42E69BA030089F9C8 /* Color+Extension.swift in Sources */,
+				1429F8FC2E8172E900E153A9 /* AboutSectionView.swift in Sources */,
 				14E4B7382E670B26001929E8 /* StatsCalculator.swift in Sources */,
 				14E4B7342E670A5D001929E8 /* StepModel.swift in Sources */,
 				1481943F2E6705B700F86D28 /* StatsCalculatorTests.swift in Sources */,
@@ -348,8 +373,10 @@
 				14E744892E8159B300D2EAA7 /* InteractiveChart.swift in Sources */,
 				14E7448A2E8159B300D2EAA7 /* StatsSummary.swift in Sources */,
 				14E7448B2E8159B300D2EAA7 /* SelectionCard.swift in Sources */,
+				1429F8FA2E8172E800E153A9 /* PrivacySectionView.swift in Sources */,
 				14E7448C2E8159B300D2EAA7 /* DateFormatter+Extensions.swift in Sources */,
 				1471011A2E815D3200090ACB /* Localized.swift in Sources */,
+				1429F8F62E8172E600E153A9 /* InformationSectionView.swift in Sources */,
 				14E4B7362E670B05001929E8 /* StepsTrackerApp.swift in Sources */,
 				14E4B7372E670B17001929E8 /* ContentView.swift in Sources */,
 				14E4B7392E670B31001929E8 /* MainView.swift in Sources */,
@@ -360,6 +387,7 @@
 				14E4B73A2E670B36001929E8 /* SettingsView.swift in Sources */,
 				148194412E6705B700F86D28 /* StepModelProgressTests.swift in Sources */,
 				148194422E6705B700F86D28 /* StepModelWeeklyLoadTests.swift in Sources */,
+				1429F8F42E8172E500E153A9 /* GoalsSectionView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,6 +397,8 @@
 			files = (
 				1493B4C72E6700F200448945 /* NotificationManager.swift in Sources */,
 				14DE8FF32E69BA030089F9C8 /* Color+Extension.swift in Sources */,
+				1429F8F32E8172E500E153A9 /* GoalsSectionView.swift in Sources */,
+				1429F8F92E8172E800E153A9 /* PrivacySectionView.swift in Sources */,
 				1493B4C82E6700F200448945 /* StatsCalculator.swift in Sources */,
 				1493B4C92E6700F200448945 /* StepModel.swift in Sources */,
 				148194442E6705D400F86D28 /* StepDataProvider.swift in Sources */,
@@ -377,12 +407,14 @@
 				14E744862E8159B300D2EAA7 /* StatsSummary.swift in Sources */,
 				14E744872E8159B300D2EAA7 /* SelectionCard.swift in Sources */,
 				1429F8EA2E8164CA00E153A9 /* StepCounterView.swift in Sources */,
+				1429F8FD2E8172E900E153A9 /* AboutSectionView.swift in Sources */,
 				14E744882E8159B300D2EAA7 /* DateFormatter+Extensions.swift in Sources */,
 				1429F8E62E81609B00E153A9 /* HapticsHelper.swift in Sources */,
 				147101192E815D3200090ACB /* Localized.swift in Sources */,
 				1493B4CB2E6700F200448945 /* MainView.swift in Sources */,
 				1493B4CC2E6700F200448945 /* SettingsView.swift in Sources */,
 				1429F8ED2E8164DF00E153A9 /* DailyGoalView.swift in Sources */,
+				1429F8F72E8172E600E153A9 /* InformationSectionView.swift in Sources */,
 				1493B4CD2E6700F200448945 /* StatsView.swift in Sources */,
 				1493B4CE2E6700F200448945 /* StepsTrackerApp.swift in Sources */,
 			);
