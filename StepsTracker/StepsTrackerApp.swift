@@ -23,13 +23,3 @@ struct StepTrackerApp: App {
         }
     }
 }
-
-extension String {
-    var localized: String {
-        return NSLocalizedString(self, comment: "")
-    }
-    
-    func localizedFormat(_ args: CVarArg...) -> String {
-        return String(format: self.localized, args)
-    }
-} 

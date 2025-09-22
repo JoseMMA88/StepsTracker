@@ -242,6 +242,17 @@
         }
       }
     },
+    "Privacy Policy" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Política de Privacidad"
+          }
+        }
+      }
+    },
     "Save Goal" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -249,6 +260,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Guardar objetivo"
+          }
+        }
+      }
+    },
+    "Selected Day" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Día seleccionado"
           }
         }
       }
@@ -295,17 +317,6 @@
         }
       }
     },
-    "STEPS" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PASOS"
-          }
-        }
-      }
-    },
     "StepTracker" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -313,6 +324,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Contador de Pasos"
+          }
+        }
+      }
+    },
+    "Tap the same day to deselect" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toca el mismo día para deseleccionar"
           }
         }
       }
@@ -389,39 +411,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tus datos de pasos se almacenan localmente en tu dispositivo y nunca se comparten con terceros. Solo utilizamos estos datos para proporcionarte un seguimiento preciso de pasos y estadísticas."
-          }
-        }
-      }
-    },
-    "Privacy Policy" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Política de Privacidad"
-          }
-        }
-      }
-    },
-    "Selected Day" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Día seleccionado"
-          }
-        }
-      }
-    },
-    "Tap the same day to deselect" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toca el mismo día para deseleccionar"
           }
         }
       }
