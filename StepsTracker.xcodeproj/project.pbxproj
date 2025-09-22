@@ -66,8 +66,8 @@
 		1429F8EC2E8164DF00E153A9 /* DailyGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyGoalView.swift; sourceTree = "<group>"; };
 		147101182E815D3200090ACB /* Localized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localized.swift; sourceTree = "<group>"; };
 		1471011B2E815EF700090ACB /* HapticsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsHelper.swift; sourceTree = "<group>"; };
-		1478DEA52E798CC3008763DA /* StepsTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StepsTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		1478DEA62E798CC3008763DA /* StepsTrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StepsTrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1478DEA52E798CC3008763DA /* StepsTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = StepsTracker.app; path = "/Users/josemanuelmalagonalba/Documents/Projects/Apps/StepsTracker/build/Debug-iphoneos/StepsTracker.app"; sourceTree = "<absolute>"; };
+		1478DEA62E798CC3008763DA /* StepsTrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = StepsTrackerTests.xctest; path = "/Users/josemanuelmalagonalba/Documents/Projects/Apps/StepsTracker/build/Debug-iphoneos/StepsTracker.app/PlugIns/StepsTrackerTests.xctest"; sourceTree = "<absolute>"; };
 		1481943A2E6705B700F86D28 /* StatsCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsCalculatorTests.swift; sourceTree = "<group>"; };
 		1481943B2E6705B700F86D28 /* StepModelFetchTodayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepModelFetchTodayTests.swift; sourceTree = "<group>"; };
 		1481943C2E6705B700F86D28 /* StepModelProgressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepModelProgressTests.swift; sourceTree = "<group>"; };
@@ -218,8 +218,6 @@
 			children = (
 				1493B4C22E6700F200448945 /* StepsTracker */,
 				1481943E2E6705B700F86D28 /* StepsTrackerTests */,
-				1478DEA52E798CC3008763DA /* StepsTracker.app */,
-				1478DEA62E798CC3008763DA /* StepsTrackerTests.xctest */,
 			);
 			sourceTree = "<group>";
 		};
