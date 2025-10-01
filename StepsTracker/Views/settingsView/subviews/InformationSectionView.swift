@@ -6,7 +6,7 @@ struct InformationSectionView: View {
             HStack {
                 Text("Version".localized)
                 Spacer()
-                Text("1.0.0".localized)
+                Text(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "-")
                     .foregroundColor(.gray)
             }
             
