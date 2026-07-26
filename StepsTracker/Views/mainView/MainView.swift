@@ -1,240 +1,255 @@
 import SwiftUI
-import Foundation
-import CoreMotion
-import HealthKit
 
 struct MainView: View {
-    // MARK: - Properties
-    @EnvironmentObject var stepModel: StepModel
-    @State private var showSuccessAnimation = false
-    @State private var hasTriggeredGoalAnimation = false
+    @Environment(StepModel.self) private var stepModel
 
-    // Haptics helper
-    private let haptics = HapticsHelper()
-
-    // Formatters
-    private static let integerFormatter: NumberFormatter = {
-        let nf = NumberFormatter()
-        nf.numberStyle = .decimal
-        nf.groupingSeparator = Locale.current.groupingSeparator
-        nf.maximumFractionDigits = 0
-        return nf
-    }()
-
-    private static let percentFormatter: NumberFormatter = {
-        let nf = NumberFormatter()
-        nf.numberStyle = .percent
-        nf.maximumFractionDigits = 0
-        return nf
-    }()
-
-    private var progressValue: CGFloat {
-        let progress = stepModel.progress()
-        guard progress.isFinite else { return 0.0 }
-        return CGFloat(progress)
-    }
-
-    private var percentageText: String {
-        let clamped = max(0.0, min(Double(progressValue), 1.0))
-        return MainView.percentFormatter.string(from: NSNumber(value: clamped)) ?? "\(Int(clamped * 100))%"
-    }
-
-    private var todayStepsText: String {
-        let num = NSNumber(value: stepModel.todaySteps)
-        return MainView.integerFormatter.string(from: num) ?? "\(stepModel.todaySteps)"
-    }
-
-    private var goalStepsText: String {
-        let num = NSNumber(value: stepModel.goalSteps)
-        return MainView.integerFormatter.string(from: num) ?? "\(stepModel.goalSteps)"
-    }
-
-    private var ringColors: [Color] {
-        stepModel.todaySteps >= stepModel.goalSteps ? [.green, .green.opacity(0.8)] : [.blue, .purple]
-    }
-
-    // MARK: - Views
     var body: some View {
-        ZStack {
-            BackgroundGradientView()
-
-            GeometryReader { geometry in
-                ScrollView {
-                    VStack {
-                        Spacer()
-
-                        MainProgressSection(
-                            width: min(geometry.size.width * 0.85, 350),
-                            progressValue: progressValue,
-                            ringColors: ringColors,
-                            showSuccessAnimation: showSuccessAnimation,
-                            todayStepsText: todayStepsText,
-                            percentageText: percentageText,
-                            reachedGoal: stepModel.todaySteps >= stepModel.goalSteps
-                        )
-                        .onChange(of: stepModel.todaySteps) { oldValue, newValue in
-                            handleStepsChange(newValue: newValue)
-                        }
-
-                        DailyGoalView(goalStepsText: goalStepsText,
-                                      reachedGoal: stepModel.todaySteps >= stepModel.goalSteps)
-
-                        Spacer()
+        NavigationStack {
+            dashboard
+                .navigationTitle("Today")
+                .navigationBarTitleDisplayMode(.large)
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        refreshButton
                     }
-                    .frame(minHeight: geometry.size.height)
-                    .frame(maxWidth: .infinity)
                 }
-                .scrollIndicators(.hidden)
-                .refreshable {
-                    stepModel.fetchTodaySteps()
-                    stepModel.loadWeeklyData()
+                .task {
+                    guard stepModel.dataState != .needsHealthPermission else { return }
+                    await stepModel.refresh()
                 }
-            }
         }
     }
 
-    // MARK: - Private
-    private func handleStepsChange(newValue: Int) {
-        // Trigger only once when crossing the goal
-        if !hasTriggeredGoalAnimation && newValue >= stepModel.goalSteps {
-            hasTriggeredGoalAnimation = true
-            withAnimation(.spring(response: 0.6, dampingFraction: 0.6)) {
-                showSuccessAnimation = true
+    @ViewBuilder
+    private var dashboard: some View {
+        switch stepModel.dataState {
+        case .loading:
+            DashboardLoadingView()
+        case .needsHealthPermission:
+            PermissionRequiredView {
+                await stepModel.requestHealthPermission()
             }
-            haptics.success()
-            // Reset animation after 2 seconds but keep the one-shot flag
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                withAnimation {
-                    showSuccessAnimation = false
-                }
-            }
-        } else if hasTriggeredGoalAnimation && newValue < stepModel.goalSteps {
-            // Allow re-trigger if the user drops below goal (e.g., debugging/reset)
-            hasTriggeredGoalAnimation = false
-        }
-    }
-}
-
-// MARK: - Subviews
-
-private struct BackgroundGradientView: View {
-    var body: some View {
-        LinearGradient(
-            gradient: Gradient(colors: [Color.black, Color(hex: "101010")]),
-            startPoint: .top,
-            endPoint: .bottom
-        )
-        .ignoresSafeArea()
-    }
-}
-
-private struct MainProgressSection: View {
-    let width: CGFloat
-    let progressValue: CGFloat
-    let ringColors: [Color]
-    let showSuccessAnimation: Bool
-    let todayStepsText: String
-    let percentageText: String
-    let reachedGoal: Bool
-
-    private var innerGlowGradient: RadialGradient {
-        RadialGradient(
-            gradient: Gradient(colors: [Color.white.opacity(0.2), Color.black.opacity(0.05)]),
-            center: .center,
-            startRadius: 0,
-            endRadius: width * 0.4
-        )
-    }
-
-    var body: some View {
-        ZStack {
-            ProgressRingView(
-                progress: progressValue,
-                ringColors: ringColors,
-                showSuccessAnimation: showSuccessAnimation
+        case .unavailable:
+            ContentUnavailableView(
+                "Step tracking is unavailable",
+                systemImage: "figure.walk",
+                description: Text("This device cannot provide step data.")
             )
-
-            Circle()
-                .fill(innerGlowGradient)
-                .padding(30)
-
-            StepCounterView(todayStepsText: todayStepsText,
-                            percentageText: percentageText,
-                            reachedGoal: reachedGoal)
-            .accessibilityElement(children: .combine)
-            .accessibilityLabel("Steps progress".localized)
-            .accessibilityValue("\(todayStepsText) " + "steps".localized + ", " + percentageText)
+        case .failed(let message):
+            DashboardErrorView(message: message) {
+                await stepModel.refresh()
+            }
+        case .ready:
+            if stepModel.todaySteps == 0 {
+                EmptyStepsView {
+                    await stepModel.refresh()
+                }
+            } else {
+                DashboardContent(
+                    steps: stepModel.todaySteps,
+                    goal: stepModel.goalSteps,
+                    isRefreshing: stepModel.isUpdating,
+                    onRefresh: { await stepModel.refresh() }
+                )
+            }
         }
-        .frame(width: width)
-        .padding()
-        .accessibilityElement(children: .contain)
-        .accessibilityLabel("Daily steps progress".localized)
-        .accessibilityValue(percentageText)
-        .accessibilityHint("Shows your progress towards the daily goal".localized)
+    }
+
+    private var refreshButton: some View {
+        Button {
+            Task {
+                await stepModel.refresh()
+            }
+        } label: {
+            if stepModel.isUpdating {
+                ProgressView()
+            } else {
+                Label("Refresh", systemImage: "arrow.clockwise")
+            }
+        }
+        .disabled(stepModel.isUpdating)
+        .accessibilityLabel("Refresh steps")
     }
 }
 
-private struct ProgressRingView: View {
-    let progress: CGFloat
-    let ringColors: [Color]
-    let showSuccessAnimation: Bool
+private struct DashboardContent: View {
+    let steps: Int
+    let goal: Int
+    let isRefreshing: Bool
+    let onRefresh: () async -> Void
+
+    private var progress: Double {
+        guard goal > 0 else { return 0 }
+        return min(max(Double(steps) / Double(goal), 0), 1)
+    }
 
     var body: some View {
-        ZStack {
-            // Base ring
-            Circle()
-                .stroke(
-                    LinearGradient(
-                        gradient: Gradient(colors: [Color.blue.opacity(0.2), Color.purple.opacity(0.2)]),
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    ),
-                    lineWidth: 20
+        ScrollView {
+            VStack(spacing: 24) {
+                TodayHeader()
+
+                StepProgressCard(
+                    steps: steps,
+                    goal: goal,
+                    progress: progress
                 )
 
-            // Progress ring
-            Circle()
-                .trim(from: 0, to: progress)
-                .stroke(
-                    LinearGradient(
-                        gradient: Gradient(colors: ringColors),
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    ),
-                    style: StrokeStyle(lineWidth: 20, lineCap: .round)
-                )
-                .rotationEffect(.degrees(-90))
-                .animation(.spring(), value: progress)
-
-            // Success pulse
-            if showSuccessAnimation {
-                Circle()
-                    .stroke(Color.green, lineWidth: 2)
-                    .scaleEffect(showSuccessAnimation ? 1.2 : 1.0)
-                    .opacity(showSuccessAnimation ? 0 : 1)
-                    .animation(
-                        .easeInOut(duration: 1)
-                        .repeatCount(2, autoreverses: false),
-                        value: showSuccessAnimation
-                    )
+                DailyGoalView(steps: steps, goal: goal)
+            }
+            .frame(maxWidth: 620)
+            .padding(.horizontal)
+            .padding(.vertical, 24)
+            .frame(maxWidth: .infinity)
+        }
+        .refreshable {
+            await onRefresh()
+        }
+        .overlay(alignment: .top) {
+            if isRefreshing {
+                ProgressView()
+                    .padding(.top, 8)
             }
         }
     }
 }
 
+private struct TodayHeader: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(Date.now, format: .dateTime.weekday(.wide).month(.wide).day())
+                .font(.headline)
+            Text("Your activity today")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
 
+private struct StepProgressCard: View {
+    let steps: Int
+    let goal: Int
+    let progress: Double
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
+    private var hasReachedGoal: Bool {
+        steps >= goal
+    }
 
+    private var accessibilitySummary: String {
+        let percentage = Int((progress * 100).rounded())
+        return "\(steps.formatted()) steps. \(percentage)% of your \(goal.formatted()) step goal."
+    }
 
-// MARK: - Preview
-struct MainView_Previews: PreviewProvider {
-    static var previews: some View {
-        let mockStepModel = StepModel()
-        mockStepModel.todaySteps = 8_888
-        mockStepModel.goalSteps = 10_000
+    var body: some View {
+        VStack(spacing: 20) {
+            ZStack {
+                Circle()
+                    .stroke(.quaternary, lineWidth: 16)
 
-        return MainView()
-            .environmentObject(mockStepModel)
-            .preferredColorScheme(.dark)
+                Circle()
+                    .trim(from: 0, to: progress)
+                    .stroke(
+                        hasReachedGoal ? Color.green : Color.accentColor,
+                        style: StrokeStyle(lineWidth: 16, lineCap: .round)
+                    )
+                    .rotationEffect(.degrees(-90))
+                    .animation(reduceMotion ? nil : .snappy, value: progress)
+
+                StepCounterView(steps: steps, progress: progress)
+            }
+            .frame(width: 220, height: 220)
+
+            Label {
+                Text(hasReachedGoal ? "Daily goal achieved" : "Keep moving at your pace")
+                    .font(.headline)
+            } icon: {
+                Image(systemName: hasReachedGoal ? "checkmark.circle.fill" : "figure.walk")
+                    .foregroundStyle(hasReachedGoal ? Color.green : .accentColor)
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(24)
+        .background(.background, in: .rect(cornerRadius: 24))
+        .shadow(color: .primary.opacity(0.08), radius: 12, y: 6)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Daily steps")
+        .accessibilityValue(accessibilitySummary)
+    }
+}
+
+private struct DashboardLoadingView: View {
+    var body: some View {
+        VStack(spacing: 16) {
+            ProgressView()
+                .controlSize(.large)
+            Text("Loading your steps")
+                .font(.headline)
+            Text("This can take a moment.")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .accessibilityElement(children: .combine)
+    }
+}
+
+private struct PermissionRequiredView: View {
+    let requestPermission: () async -> Void
+
+    var body: some View {
+        ContentUnavailableView {
+            Label("Allow access to your steps", systemImage: "heart.text.square")
+        } description: {
+            Text("StepsTracker reads step data from Health to show your daily progress and weekly activity. You can change this later in Settings.")
+        } actions: {
+            Button("Allow Health access") {
+                Task {
+                    await requestPermission()
+                }
+            }
+            .buttonStyle(.borderedProminent)
+        }
+    }
+}
+
+private struct EmptyStepsView: View {
+    let onRefresh: () async -> Void
+
+    var body: some View {
+        ContentUnavailableView {
+            Label("No steps yet", systemImage: "figure.walk.motion")
+        } description: {
+            Text("Your steps will appear here once Health has recorded activity today.")
+        } actions: {
+            Button("Refresh") {
+                Task {
+                    await onRefresh()
+                }
+            }
+        }
+        .refreshable {
+            await onRefresh()
+        }
+    }
+}
+
+private struct DashboardErrorView: View {
+    let message: String
+    let retry: () async -> Void
+
+    var body: some View {
+        ContentUnavailableView {
+            Label("Unable to load steps", systemImage: "exclamationmark.triangle")
+        } description: {
+            Text(message)
+        } actions: {
+            Button("Try again") {
+                Task {
+                    await retry()
+                }
+            }
+            .buttonStyle(.borderedProminent)
+        }
     }
 }

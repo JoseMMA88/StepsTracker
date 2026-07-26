@@ -9,17 +9,20 @@ import SwiftUI
 
 @main
 struct StepTrackerApp: App {
-    @StateObject private var stepModel = StepModel()
-    
+    @State private var stepModel: StepModel
+
     init() {
-        // Inicializar el NotificationManager
-        _ = NotificationManager.shared
+        #if DEBUG && targetEnvironment(simulator)
+        _stepModel = State(initialValue: StepModel(stepDataProvider: DemoStepDataProvider()))
+        #else
+        _stepModel = State(initialValue: StepModel())
+        #endif
     }
-    
+
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(stepModel)
+                .environment(stepModel)
         }
     }
 }

@@ -1,21 +1,13 @@
 import SwiftUI
 
 struct InformationSectionView: View {
+    private var version: String {
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "–"
+    }
+
     var body: some View {
-        Section(header: Text("Information".localized).foregroundColor(.blue)) {
-            HStack {
-                Text("Version".localized)
-                Spacer()
-                Text(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "-")
-                    .foregroundColor(.gray)
-            }
-            
-            HStack {
-                Text("Device".localized)
-                Spacer()
-                Text(UIDevice.current.model)
-                    .foregroundColor(.gray)
-            }
+        Section("Information") {
+            LabeledContent("Version", value: version)
         }
     }
 }

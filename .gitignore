@@ -1,0 +1,13 @@
+# Xcode user-specific state
+xcuserdata/
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+
+# Local build output
+build/
+DerivedData/
+
+# App Store Connect credentials must remain outside the repository.
+private_keys/
+.appstoreconnect/

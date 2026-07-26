@@ -1,31 +1,38 @@
 import SwiftUI
 
 struct ContentView: View {
-    // MARK: - Properties
-    @EnvironmentObject var stepModel: StepModel
-    @State private var selectedTab = 0
-    
-    // MARK: - Views
+    @Environment(StepModel.self) private var stepModel
+    @State private var selectedTab = AppTab.today
+
     var body: some View {
         TabView(selection: $selectedTab) {
             MainView()
+                .environment(stepModel)
                 .tabItem {
                     Label("Today", systemImage: "figure.walk")
                 }
-                .tag(0)
-            
+                .tag(AppTab.today)
+
             StatsView()
+                .environment(stepModel)
                 .tabItem {
                     Label("Statistics", systemImage: "chart.bar")
                 }
-                .tag(1)
-            
+                .tag(AppTab.statistics)
+
             SettingsView()
+                .environment(stepModel)
                 .tabItem {
                     Label("Settings", systemImage: "gear")
                 }
-                .tag(2)
+                .tag(AppTab.settings)
         }
-        .accentColor(.blue)
+        .tint(.accentColor)
     }
-} 
+}
+
+private enum AppTab: Hashable {
+    case today
+    case statistics
+    case settings
+}

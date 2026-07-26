@@ -1,36 +1,26 @@
-//
-//  StepCounterView.swift
-//  StepsTracker
-//
-//  Created by Jose Manuel Malagón Alba on 22/9/25.
-//
-
-
 import SwiftUI
-import Foundation
-import CoreMotion
-import HealthKit
 
+/// Kept as a focused, reusable value label for future compact dashboard layouts.
 struct StepCounterView: View {
-    let todayStepsText: String
-    let percentageText: String
-    let reachedGoal: Bool
+    let steps: Int
+    let progress: Double
 
     var body: some View {
-        VStack(spacing: 10) {
-            Text(todayStepsText)
-                .font(.system(size: 70, weight: .bold, design: .rounded))
-                .foregroundColor(.white)
-                .shadow(color: reachedGoal ? .green.opacity(0.5) : .blue.opacity(0.5), radius: 10, x: 0, y: 0)
-
-            Text("STEPS".localized)
+        VStack(spacing: 4) {
+            Text(steps, format: .number)
+                .font(.system(.largeTitle, design: .rounded).weight(.bold))
+                .lineLimit(1)
+                .minimumScaleFactor(0.6)
+                .frame(maxWidth: 180)
+            Text("steps")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+            Text(progress, format: .percent.precision(.fractionLength(0)))
                 .font(.headline)
-                .foregroundColor(.gray)
-
-            Text(percentageText)
-                .font(.title2)
-                .fontWeight(.semibold)
-                .foregroundColor(.gray.opacity(0.5))
+                .foregroundStyle(.secondary)
         }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Steps")
+        .accessibilityValue("\(steps.formatted()) steps, \(Int((progress * 100).rounded())) percent")
     }
 }

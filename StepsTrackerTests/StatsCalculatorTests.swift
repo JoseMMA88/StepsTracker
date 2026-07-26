@@ -2,48 +2,48 @@ import XCTest
 @testable import StepsTracker
 
 final class StatsCalculatorTests: XCTestCase {
-    func testAverageDailySteps_empty_returnsZero() {
-        let average = StatsCalculator.averageDailySteps(weeklySteps: [:])
-        XCTAssertEqual(average, 0)
+    func testCalculationsUseTypedDailySteps() {
+        let steps = [
+            DailyStep(date: date(day: 1), steps: 1_000),
+            DailyStep(date: date(day: 2), steps: 2_000),
+            DailyStep(date: date(day: 3), steps: 3_000)
+        ]
+
+        XCTAssertEqual(StatsCalculator.averageDailySteps(dailySteps: steps), 2_000)
+        XCTAssertEqual(StatsCalculator.totalWeeklySteps(dailySteps: steps), 6_000)
+        XCTAssertEqual(StatsCalculator.bestDaySteps(dailySteps: steps), 3_000)
     }
 
-    func testAverageDailySteps_nonEmpty_integerDivision() {
-        // 1000 + 2000 + 3000 = 6000 / 3 = 2000
-        let now = Date()
-        let calendar = Calendar.current
-        let steps: [Date: Int] = [
-            calendar.startOfDay(for: now): 1000,
-            calendar.date(byAdding: .day, value: -1, to: calendar.startOfDay(for: now))!: 2000,
-            calendar.date(byAdding: .day, value: -2, to: calendar.startOfDay(for: now))!: 3000
-        ]
-        let average = StatsCalculator.averageDailySteps(weeklySteps: steps)
-        XCTAssertEqual(average, 2000)
+    func testCalculationsForEmptyCollectionReturnZero() {
+        XCTAssertEqual(StatsCalculator.averageDailySteps(dailySteps: []), 0)
+        XCTAssertEqual(StatsCalculator.totalWeeklySteps(dailySteps: []), 0)
+        XCTAssertEqual(StatsCalculator.bestDaySteps(dailySteps: []), 0)
     }
 
-    func testTotalWeeklySteps_sumsAllValues() {
-        let now = Date()
-        let calendar = Calendar.current
-        let steps: [Date: Int] = [
-            calendar.startOfDay(for: now): 1200,
-            calendar.date(byAdding: .day, value: -1, to: calendar.startOfDay(for: now))!: 800,
-            calendar.date(byAdding: .day, value: -2, to: calendar.startOfDay(for: now))!: 0
+    func testWeeklySummaryUsesCalendarWeekStartTotalAndDailyAverage() {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(secondsFromGMT: 0)!
+        calendar.firstWeekday = 2
+        calendar.minimumDaysInFirstWeek = 4
+        let dailySteps = [
+            DailyStep(date: date(year: 2026, month: 7, day: 7, hour: 12), steps: 8_000),
+            DailyStep(date: date(year: 2026, month: 7, day: 12, hour: 12), steps: 10_000)
         ]
-        let total = StatsCalculator.totalWeeklySteps(weeklySteps: steps)
-        XCTAssertEqual(total, 2000)
+
+        let summary = StatsCalculator.weeklySummary(for: dailySteps, calendar: calendar)
+
+        XCTAssertEqual(summary?.weekStart, date(year: 2026, month: 7, day: 6))
+        XCTAssertEqual(summary?.totalSteps, 18_000)
+        XCTAssertEqual(summary?.averageDailySteps, 9_000)
     }
 
-    func testBestDaySteps_returnsMaxOrZero() {
-        XCTAssertEqual(StatsCalculator.bestDaySteps(weeklySteps: [:]), 0)
+    private func date(day: Int) -> Date {
+        date(year: 2026, month: 7, day: day)
+    }
 
-        let now = Date()
-        let calendar = Calendar.current
-        let steps: [Date: Int] = [
-            calendar.startOfDay(for: now): 500,
-            calendar.date(byAdding: .day, value: -1, to: calendar.startOfDay(for: now))!: 1200,
-            calendar.date(byAdding: .day, value: -2, to: calendar.startOfDay(for: now))!: 300
-        ]
-        XCTAssertEqual(StatsCalculator.bestDaySteps(weeklySteps: steps), 1200)
+    private func date(year: Int, month: Int, day: Int, hour: Int = 0) -> Date {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(secondsFromGMT: 0)!
+        return calendar.date(from: DateComponents(year: year, month: month, day: day, hour: hour))!
     }
 }
-
-

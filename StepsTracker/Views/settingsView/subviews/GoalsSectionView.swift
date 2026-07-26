@@ -1,81 +1,67 @@
 import SwiftUI
 
 struct GoalsSectionView: View {
-    @EnvironmentObject var stepModel: StepModel
-    @State private var tempGoalSteps: String = ""
-    @State private var showAlert: Bool = false
-    @FocusState private var isGoalFieldFocused: Bool
+    @Environment(StepModel.self) private var stepModel
+
+    private let goalPresets = [6_000, 8_000, 10_000, 12_000]
 
     var body: some View {
-        Section(header: Text("Goals".localized).foregroundColor(.blue)) {
-            HStack {
-                Text("Daily step goal".localized)
-                Spacer()
-                TextField("10,000".localized, text: $tempGoalSteps)
-                    .keyboardType(.numberPad)
-                    .multilineTextAlignment(.trailing)
-                    .focused($isGoalFieldFocused)
-                    .onChange(of: tempGoalSteps) { oldValue, newValue in
-                        // Filter non-numeric characters while typing
-                        let filtered = newValue.filter { $0.isNumber }
-                        if filtered != newValue {
-                            tempGoalSteps = filtered
-                        }
-                    }
-                    .onAppear {
-                        // Initialize with current value
-                        tempGoalSteps = "\(stepModel.goalSteps)"
-                    }
-            }
-            
-            Button(action: updateGoalSteps) {
-                Text("Save Goal".localized)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(
-                        LinearGradient(
-                            gradient: Gradient(colors: [.blue, .purple]),
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-            }
-        }
-        .toolbar {
-            ToolbarItemGroup(placement: .keyboard) {
-                Spacer()
-                Button("Done".localized) {
-                    updateGoalSteps()
+        Section {
+            Stepper(value: goalBinding, in: 1_000...100_000, step: 500) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Daily step goal")
+                    Text(stepModel.goalSteps, format: .number)
+                        .font(.title3.weight(.semibold))
+                        .foregroundStyle(.secondary)
                 }
             }
-        }
-        .alert("Invalid number".localized, isPresented: $showAlert) {
-            Button("Ok".localized) {
-                showAlert = false
+
+            VStack(alignment: .leading, spacing: 10) {
+                Text("Quick choices")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+
+                LazyVGrid(
+                    columns: [GridItem(.adaptive(minimum: 72), spacing: 8)],
+                    alignment: .leading,
+                    spacing: 8
+                ) {
+                    ForEach(goalPresets, id: \.self) { goal in
+                        presetButton(for: goal)
+                    }
+                }
             }
-        } message: {
-            Text("Please enter a valid number between 1 and 100,000.".localized)
+            .padding(.vertical, 4)
+        } header: {
+            Text("Daily goal")
+        } footer: {
+            Text("Your goal is saved automatically and used to calculate today’s progress.")
         }
     }
-    
-    // MARK: - Functions
-    private func updateGoalSteps() {
-        // Ensure the value is a valid number
-        let filtered = tempGoalSteps.filter { $0.isNumber }
-        
-        // If the value is empty or not a valid number, restore the previous value
-        guard !filtered.isEmpty, let newGoal = Int(filtered), newGoal > 0 && newGoal <= 100000 else {
-            showAlert = true
-            tempGoalSteps = "\(stepModel.goalSteps)"
-            isGoalFieldFocused = false
-            return
+
+    private func presetButton(for goal: Int) -> some View {
+        Button {
+            Task {
+                await stepModel.updateGoal(goal)
+            }
+        } label: {
+            Text(goal, format: .number)
+                .frame(maxWidth: .infinity)
         }
-        
-        // Update the value only if it's valid
-        stepModel.goalSteps = newGoal
-        tempGoalSteps = "\(newGoal)"
-        isGoalFieldFocused = false
+        .buttonStyle(.bordered)
+        .tint(goal == stepModel.goalSteps ? .accentColor : .secondary)
+        .controlSize(.small)
+        .accessibilityLabel("Set daily goal to \(goal.formatted()) steps")
+    }
+
+    private var goalBinding: Binding<Int> {
+        Binding(
+            get: { stepModel.goalSteps },
+            set: { goal in
+                Task {
+                    await stepModel.updateGoal(goal)
+                }
+            }
+        )
     }
 }

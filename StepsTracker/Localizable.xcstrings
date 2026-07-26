@@ -1,7 +1,82 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@ left" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faltan %@"
+          }
+        }
+      }
+    },
+    "%@ steps remaining out of %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ steps remaining out of %2$@."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ pasos restantes de %2$@."
+          }
+        }
+      }
+    },
+    "%@ steps, %lld percent" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ steps, %2$lld percent"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ pasos, %2$lld por ciento"
+          }
+        }
+      }
+    },
+    "%@ steps. %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ steps. %2$@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ pasos. %2$@"
+          }
+        }
+      }
+    },
+    "%@ to %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ to %2$@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ a %2$@"
+          }
+        }
+      }
+    },
     "%lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -44,13 +119,72 @@
         }
       }
     },
+    "A simple, private view of the steps that Health records on your device." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una vista sencilla y privada de los pasos que Salud registra en tu dispositivo."
+          }
+        }
+      }
+    },
     "About" : {
-      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sobre nosotros"
+          }
+        }
+      }
+    },
+    "Allow Health access" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permitir acceso a Salud"
+          }
+        }
+      }
+    },
+    "Allow access to see your week" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permite el acceso para ver tu semana"
+          }
+        }
+      }
+    },
+    "Allow access to your steps" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permite el acceso a tus pasos"
+          }
+        }
+      }
+    },
+    "Allow notifications" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permitir notificaciones"
+          }
+        }
+      }
+    },
+    "App" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App"
           }
         }
       }
@@ -62,6 +196,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mejor día"
+          }
+        }
+      }
+    },
+    "Best day" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mejor día"
+          }
+        }
+      }
+    },
+    "Choose a day below to hear its activity details." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige abajo un día para escuchar sus detalles de actividad."
+          }
+        }
+      }
+    },
+    "Complete" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Completado"
           }
         }
       }
@@ -88,6 +252,46 @@
         }
       }
     },
+    "Daily average" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Media diaria"
+          }
+        }
+      }
+    },
+    "Daily average by week" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Promedio diario por semana"
+          }
+        }
+      }
+    },
+    "Daily goal" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Objetivo diario"
+          }
+        }
+      }
+    },
+    "Daily goal achieved" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Objetivo diario alcanzado"
+          }
+        }
+      }
+    },
     "Daily goal:" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -99,13 +303,32 @@
         }
       }
     },
+    "Daily reminder" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recordatorio diario"
+          }
+        }
+      }
+    },
     "Daily step goal" : {
-      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Objetivo diario de pasos"
+          }
+        }
+      }
+    },
+    "Daily steps" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pasos diarios"
           }
         }
       }
@@ -122,12 +345,31 @@
       }
     },
     "Day" : {
-      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Día"
+          }
+        }
+      }
+    },
+    "Demo data is active" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datos de muestra activos"
+          }
+        }
+      }
+    },
+    "Development" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desarrollo"
           }
         }
       }
@@ -165,6 +407,26 @@
         }
       }
     },
+    "Each point shows the average steps per day for one week." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cada punto muestra el promedio diario de pasos de una semana."
+          }
+        }
+      }
+    },
+    "Goal" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Objetivo"
+          }
+        }
+      }
+    },
     "Goal Achieved! 🎉" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -172,6 +434,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "¡Meta alcanzada! 🎉"
+          }
+        }
+      }
+    },
+    "Goal complete. %@ steps." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Objetivo completado. %@ pasos."
           }
         }
       }
@@ -187,8 +459,17 @@
         }
       }
     },
+    "Health access is needed to show your activity history." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se necesita acceso a Salud para mostrar tu historial de actividad."
+          }
+        }
+      }
+    },
     "Information" : {
-      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -209,6 +490,118 @@
         }
       }
     },
+    "Keep moving at your pace" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sigue moviéndote a tu ritmo"
+          }
+        }
+      }
+    },
+    "Last seven days" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Últimos siete días"
+          }
+        }
+      }
+    },
+    "Loading statistics" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cargando estadísticas"
+          }
+        }
+      }
+    },
+    "Loading your steps" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cargando tus pasos"
+          }
+        }
+      }
+    },
+    "Next week" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Semana siguiente"
+          }
+        }
+      }
+    },
+    "No selection" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin selección"
+          }
+        }
+      }
+    },
+    "No steps yet" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todavía no hay pasos"
+          }
+        }
+      }
+    },
+    "No weekly activity yet" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todavía no hay actividad semanal"
+          }
+        }
+      }
+    },
+    "Notifications allowed" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notificaciones permitidas"
+          }
+        }
+      }
+    },
+    "Notifications are turned off" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las notificaciones están desactivadas"
+          }
+        }
+      }
+    },
+    "Notifications are unavailable on this device" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las notificaciones no están disponibles en este dispositivo"
+          }
+        }
+      }
+    },
     "Ok" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -220,6 +613,16 @@
         }
       }
     },
+    "Open notification settings" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir ajustes de notificaciones"
+          }
+        }
+      }
+    },
     "Please enter a valid number between 1 and 100,000." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -227,6 +630,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Por favor introduzca un número entre 1 y 100.000"
+          }
+        }
+      }
+    },
+    "Previous week" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Semana anterior"
           }
         }
       }
@@ -253,6 +666,76 @@
         }
       }
     },
+    "Privacy policy" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Política de privacidad"
+          }
+        }
+      }
+    },
+    "Quick choices" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opciones rápidas"
+          }
+        }
+      }
+    },
+    "Refresh" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualizar"
+          }
+        }
+      }
+    },
+    "Refresh steps" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualizar pasos"
+          }
+        }
+      }
+    },
+    "Reminder time" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hora del recordatorio"
+          }
+        }
+      }
+    },
+    "Reminders" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recordatorios"
+          }
+        }
+      }
+    },
+    "Reminders are optional. Choose a time that supports your routine." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los recordatorios son opcionales. Elige una hora que se ajuste a tu rutina."
+          }
+        }
+      }
+    },
     "Save Goal" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -271,6 +754,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Día seleccionado"
+          }
+        }
+      }
+    },
+    "Selected day" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Día seleccionado"
+          }
+        }
+      }
+    },
+    "Selected week" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Semana seleccionada"
+          }
+        }
+      }
+    },
+    "Set daily goal to %@ steps" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Establecer el objetivo diario en %@ pasos"
           }
         }
       }
@@ -295,6 +808,16 @@
         }
       }
     },
+    "Statistics unavailable" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estadísticas no disponibles"
+          }
+        }
+      }
+    },
     "Stay Active! 🚶‍♂️" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -302,6 +825,27 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "¡Mantente activo! 🚶‍♂️"
+          }
+        }
+      }
+    },
+    "Step tracking is unavailable" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El seguimiento de pasos no está disponible"
+          }
+        }
+      }
+    },
+    "StepTracker" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contador de Pasos"
           }
         }
       }
@@ -317,13 +861,32 @@
         }
       }
     },
-    "StepTracker" : {
-      "extractionState" : "manual",
+    "StepsTracker" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Contador de Pasos"
+            "value" : "StepsTracker"
+          }
+        }
+      }
+    },
+    "StepsTracker reads step data from Health to show your daily progress and weekly activity. You can change this later in Settings." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "StepsTracker lee tus pasos de Salud para mostrar tu progreso diario y actividad semanal. Puedes cambiarlo después en Ajustes."
+          }
+        }
+      }
+    },
+    "StepsTracker reads your step count from Apple Health to show your progress. Your health data is not shared with third parties." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "StepsTracker lee tus pasos de Salud de Apple para mostrar tu progreso. Tus datos de salud no se comparten con terceros."
           }
         }
       }
@@ -350,6 +913,46 @@
         }
       }
     },
+    "This build uses sample steps so you can explore the app without Health access." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta compilación usa pasos de muestra para que explores la app sin acceso a Salud."
+          }
+        }
+      }
+    },
+    "This can take a moment." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esto puede tardar un momento."
+          }
+        }
+      }
+    },
+    "This device cannot provide step data." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este dispositivo no puede proporcionar datos de pasos."
+          }
+        }
+      }
+    },
+    "This week" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta semana"
+          }
+        }
+      }
+    },
     "Today" : {
       "localizations" : {
         "es" : {
@@ -360,8 +963,37 @@
         }
       }
     },
+    "Try again" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intentar de nuevo"
+          }
+        }
+      }
+    },
+    "Unable to load statistics" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se han podido cargar las estadísticas"
+          }
+        }
+      }
+    },
+    "Unable to load steps" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se han podido cargar los pasos"
+          }
+        }
+      }
+    },
     "Version" : {
-      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -378,6 +1010,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Necesitamos enviarte notificaciones para mantenerte informado sobre tu progreso de pasos diarios"
+          }
+        }
+      }
+    },
+    "Week" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Semana"
           }
         }
       }
@@ -404,6 +1046,67 @@
         }
       }
     },
+    "Weekly daily average chart" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gráfica de promedio diario semanal"
+          }
+        }
+      }
+    },
+    "Weekly steps chart" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gráfico semanal de pasos"
+          }
+        }
+      }
+    },
+    "Weekly total" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total semanal"
+          }
+        }
+      }
+    },
+    "Your activity today" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu actividad de hoy"
+          }
+        }
+      }
+    },
+    "Your goal is saved automatically and used to calculate today’s progress." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu objetivo se guarda automáticamente y se usa para calcular el progreso de hoy."
+          }
+        }
+      }
+    },
+    "Your recent step history will appear here after Health records it." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu historial reciente de pasos aparecerá aquí cuando Salud lo registre."
+          }
+        }
+      }
+    },
     "Your step data is stored locally on your device and is never shared with third parties. We only use this data to provide you with accurate step tracking and statistics." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -411,6 +1114,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tus datos de pasos se almacenan localmente en tu dispositivo y nunca se comparten con terceros. Solo utilizamos estos datos para proporcionarte un seguimiento preciso de pasos y estadísticas."
+          }
+        }
+      }
+    },
+    "Your steps will appear here once Health has recorded activity today." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tus pasos aparecerán aquí cuando Salud registre actividad hoy."
+          }
+        }
+      }
+    },
+    "steps" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pasos"
           }
         }
       }

@@ -1,75 +1,130 @@
 import XCTest
 @testable import StepsTracker
 
-private final class StepDataProviderTodayMock: StepDataProviding {
-    var stepsForToday: Int = 0
-    func stepsForDay(_ date: Date, completion: @escaping (Int) -> Void) {
-        // Simulate async, as provider does
-        DispatchQueue.global().async {
-            completion(self.stepsForToday)
-        }
-    }
-}
-
+@MainActor
 final class StepModelFetchTodayTests: XCTestCase {
-    func testFetchTodaySteps_updatesTodayAndWeekly() {
-        let mock = StepDataProviderTodayMock()
-        mock.stepsForToday = 3456
-        let model = StepModel(enableSideEffects: false, stepDataProvider: mock)
+    func testRefreshUpdatesTodayAndReplacesTheSevenDaySeriesAtomically() async {
+        let clock = TestClock(now: date(day: 26))
+        let provider = StepDataProviderStub()
+        provider.stepsByDate = steps(for: clock.now, values: [100, 200, 300, 400, 500, 600, 700])
+        let model = makeModel(provider: provider, clock: clock)
 
-        let exp = expectation(description: "today steps updated")
-        model.fetchTodaySteps()
+        await model.refresh()
 
-        DispatchQueue.global().asyncAfter(deadline: .now() + 0.2) {
-            if model.todaySteps == 3456 {
-                exp.fulfill()
-            }
-        }
+        XCTAssertEqual(model.dataState, .ready)
+        XCTAssertEqual(model.dailySteps.count, 7)
+        XCTAssertEqual(model.todaySteps, 700)
+        XCTAssertEqual(model.dailySteps.last?.steps, 700)
 
-        wait(for: [exp], timeout: 1.0)
+        clock.now = date(day: 27)
+        provider.stepsByDate = steps(for: clock.now, values: [10, 20, 30, 40, 50, 60, 70])
 
-        XCTAssertEqual(model.todaySteps, 3456)
-        let startOfDay = Calendar.current.startOfDay(for: Date())
-        XCTAssertEqual(model.weeklySteps[startOfDay], 3456)
+        await model.refresh()
+
+        XCTAssertEqual(model.dailySteps.count, 7)
+        XCTAssertEqual(model.dailySteps.first?.date, date(day: 21))
+        XCTAssertEqual(model.dailySteps.last?.date, date(day: 27))
+        XCTAssertEqual(model.todaySteps, 70)
     }
 
-    func testFetchTodaySteps_triggersGoalNotificationWhenCrossingThreshold() {
-        // Spy to capture notification trigger
-        final class NotificationSpy: NotificationManager {
-            var goalTriggered = false
-            override func scheduleGoalAchievedNotification() {
-                goalTriggered = true
-            }
-        }
+    func testRefreshKeepsPreviousSeriesWhenOneDayFails() async {
+        let clock = TestClock(now: date(day: 26))
+        let provider = StepDataProviderStub()
+        provider.stepsByDate = steps(for: clock.now, values: Array(repeating: 100, count: 7))
+        let model = makeModel(provider: provider, clock: clock)
+        await model.refresh()
+        let previousSteps = model.dailySteps
 
-        let mock = StepDataProviderTodayMock()
-        mock.stepsForToday = 1000
-        let model = StepModel(enableSideEffects: false, stepDataProvider: mock)
-        // Use reflection to inject spy (keeps API small for production code)
-        let spy = NotificationSpy()
-        let mirror = Mirror(reflecting: model)
-        if let notifProp = mirror.children.first(where: { $0.label == "notificationManager" }) {
-            // Unsafe but acceptable for tests: set via KVC if available
-            // If this fails on Swift strict builds, drop this test or expose injection point.
-            _ = notifProp
-        }
+        provider.error = StepDataProviderError.queryFailed("HealthKit query failed")
+        await model.refresh()
 
-        model.goalSteps = 900
-        let exp = expectation(description: "today steps updated")
-        model.fetchTodaySteps()
-        DispatchQueue.global().asyncAfter(deadline: .now() + 0.2) {
-            exp.fulfill()
-        }
-        wait(for: [exp], timeout: 1.0)
+        XCTAssertEqual(model.dailySteps, previousSteps)
+        XCTAssertEqual(model.dataState, .failed("HealthKit query failed"))
+    }
 
-        // Cannot assert spy without proper injection; we at least assert progress >= 1
-        XCTAssertGreaterThanOrEqual(model.progress(), 1.0)
+    func testGoalAchievementIsScheduledOnlyOncePerDay() async {
+        let clock = TestClock(now: date(day: 26))
+        let provider = StepDataProviderStub()
+        provider.stepsByDate = steps(for: clock.now, values: Array(repeating: 1_000, count: 7))
+        let notifications = NotificationSchedulerSpy()
+        let model = makeModel(provider: provider, clock: clock, notifications: notifications)
+        model.goalSteps = 1_000
+
+        await model.refresh()
+        await model.refresh()
+
+        XCTAssertEqual(notifications.goalNotifications, 1)
+
+        clock.now = date(day: 27)
+        provider.stepsByDate = steps(for: clock.now, values: Array(repeating: 1_000, count: 7))
+        await model.refresh()
+
+        XCTAssertEqual(notifications.goalNotifications, 2)
+    }
+
+    func testStatisticsHistoryLoadsCalendarWeeksWithoutReplacingTodayData() async throws {
+        var calendar = Calendar(identifier: .iso8601)
+        calendar.timeZone = TimeZone(secondsFromGMT: 0)!
+        let today = calendar.date(from: DateComponents(year: 2026, month: 7, day: 26))!
+        let clock = TestClock(now: today)
+        let provider = StepDataProviderStub()
+        let previousWeek = calendar.date(byAdding: .day, value: -13, to: today)!
+        let currentWeek = calendar.date(byAdding: .day, value: -6, to: today)!
+
+        provider.stepsByDate = weeklySteps(
+            startingOn: previousWeek,
+            values: [100, 200, 300, 400, 500, 600, 700],
+            calendar: calendar
+        )
+        provider.stepsByDate.merge(
+            weeklySteps(
+                startingOn: currentWeek,
+                values: [800, 900, 1_000, 1_100, 1_200, 1_300, 1_400],
+                calendar: calendar
+            )
+        ) { _, latest in latest }
+
+        let model = StepModel(
+            enableSideEffects: false,
+            stepDataProvider: provider,
+            settingsStore: InMemoryGoalSettingsStore(),
+            notificationScheduler: NotificationSchedulerSpy(),
+            now: { clock.now },
+            calendar: calendar
+        )
+        await model.refresh()
+        let dashboardSteps = model.dailySteps
+
+        let history = try await model.statisticsHistory(forWeekContaining: today, weeksToDisplay: 2)
+
+        XCTAssertEqual(history.selectedWeekStart, currentWeek)
+        XCTAssertEqual(history.dailySteps.map(\.steps), [800, 900, 1_000, 1_100, 1_200, 1_300, 1_400])
+        XCTAssertEqual(history.weeklySummaries.map(\.totalSteps), [2_800, 7_700])
+        XCTAssertEqual(history.weeklySummaries.map(\.averageDailySteps), [400, 1_100])
+        XCTAssertEqual(model.dailySteps, dashboardSteps)
+    }
+
+    private func makeModel(
+        provider: StepDataProviderStub,
+        clock: TestClock,
+        notifications: NotificationSchedulerSpy? = nil
+    ) -> StepModel {
+        StepModel(
+            enableSideEffects: false,
+            stepDataProvider: provider,
+            settingsStore: InMemoryGoalSettingsStore(),
+            notificationScheduler: notifications ?? NotificationSchedulerSpy(),
+            now: { clock.now }
+        )
+    }
+
+    private func weeklySteps(
+        startingOn weekStart: Date,
+        values: [Int],
+        calendar: Calendar
+    ) -> [Date: Int] {
+        Dictionary(uniqueKeysWithValues: values.enumerated().map { offset, value in
+            (calendar.date(byAdding: .day, value: offset, to: weekStart)!, value)
+        })
     }
 }
-
-
-
-
-
-
-
