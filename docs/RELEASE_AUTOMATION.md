@@ -6,9 +6,9 @@ archivar y distribuir sin copiar certificados, perfiles o claves privadas al
 repositorio.
 
 El esquema compartido `StepsTracker` y `ci_scripts/ci_pre_xcodebuild.sh` forman
-parte del repositorio. En cada acción de archivado, el script ajusta únicamente
-en el clon temporal de Xcode Cloud el `CFBundleVersion` al número de build de
-Cloud. La versión comercial se mantiene en el commit de la versión.
+parte del repositorio. En cada acción de archivado, el script solo valida el
+número de build de Cloud; Xcode Cloud asigna ese número al archive sin modificar
+el proyecto. La versión comercial se mantiene en el commit de la versión.
 
 ## Configuración única en Xcode Cloud
 
@@ -51,10 +51,10 @@ git tag v1.2.0
 git push origin master --tags
 ```
 
-La etiqueta inicia el flujo de TestFlight. Xcode Cloud sustituye el build del
-clon temporal por su número de ejecución, por lo que el build publicado puede
-ser distinto del valor de preparación. El commit, no la copia local, es la
-fuente de la versión distribuida.
+La etiqueta inicia el flujo de TestFlight. Xcode Cloud asigna su número de
+ejecución al build distribuido, por lo que el build publicado puede ser distinto
+del valor de preparación. El commit, no la copia local, es la fuente de la
+versión distribuida.
 
 ## Respaldo local a TestFlight
 

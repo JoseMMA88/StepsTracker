@@ -1,9 +1,8 @@
 #!/bin/sh
 set -eu
 
-# Xcode Cloud runs this script in a disposable checkout. For an archive it makes
-# CFBundleVersion match the unique Xcode Cloud build number without modifying the
-# version stored in source control.
+# Xcode Cloud assigns CI_BUILD_NUMBER to distributed archives itself. This hook
+# only validates the value; it must not mutate the project before archiving.
 if [ "${CI_XCODEBUILD_ACTION:-}" != "archive" ]; then
     exit 0
 fi
@@ -20,5 +19,4 @@ if [ "${CI_BUILD_NUMBER}" -eq 0 ]; then
     exit 1
 fi
 
-cd "${CI_WORKSPACE_PATH:?Xcode Cloud must provide CI_WORKSPACE_PATH}"
-xcrun agvtool new-version -all "${CI_BUILD_NUMBER}"
+echo "Xcode Cloud archive build number: ${CI_BUILD_NUMBER}"
