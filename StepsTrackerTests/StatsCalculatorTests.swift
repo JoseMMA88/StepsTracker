@@ -37,6 +37,63 @@ final class StatsCalculatorTests: XCTestCase {
         XCTAssertEqual(summary?.averageDailySteps, 9_000)
     }
 
+    func testDailyChartSelectionResolvesNearestEntryDuringDrag() {
+        let entries = [
+            DailyStep(date: date(year: 2026, month: 7, day: 6), steps: 4_000),
+            DailyStep(date: date(year: 2026, month: 7, day: 7), steps: 8_500),
+            DailyStep(date: date(year: 2026, month: 7, day: 8), steps: 6_000)
+        ]
+
+        let result = ChartSelectionResolver.dailyEntry(
+            for: date(year: 2026, month: 7, day: 7, hour: 15),
+            in: entries
+        )
+
+        XCTAssertEqual(result?.steps, 8_500)
+    }
+
+    func testWeeklyChartSelectionResolvesNearestSummary() {
+        let summaries = weeklySummaries()
+
+        let result = ChartSelectionResolver.weeklySummary(
+            for: date(year: 2026, month: 7, day: 11),
+            in: summaries
+        )
+
+        XCTAssertEqual(result?.weekStart, date(year: 2026, month: 7, day: 13))
+    }
+
+    func testWeeklyChartSelectionUsesEarlierWeekWhenDistancesMatch() {
+        let summaries = weeklySummaries()
+
+        let result = ChartSelectionResolver.weeklySummary(
+            for: date(year: 2026, month: 7, day: 9, hour: 12),
+            in: summaries
+        )
+
+        XCTAssertEqual(result?.weekStart, date(year: 2026, month: 7, day: 6))
+    }
+
+    func testChartSelectionWithoutValueReturnsNil() {
+        XCTAssertNil(ChartSelectionResolver.dailyEntry(for: nil, in: []))
+        XCTAssertNil(ChartSelectionResolver.weeklySummary(for: nil, in: []))
+    }
+
+    private func weeklySummaries() -> [WeeklyStepSummary] {
+        [
+            WeeklyStepSummary(
+                weekStart: date(year: 2026, month: 7, day: 6),
+                totalSteps: 42_000,
+                averageDailySteps: 6_000
+            ),
+            WeeklyStepSummary(
+                weekStart: date(year: 2026, month: 7, day: 13),
+                totalSteps: 56_000,
+                averageDailySteps: 8_000
+            )
+        ]
+    }
+
     private func date(day: Int) -> Date {
         date(year: 2026, month: 7, day: day)
     }

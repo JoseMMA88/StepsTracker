@@ -12,10 +12,10 @@ struct StatsDashboard: View {
     let onCurrentWeek: () -> Void
     @State private var selectedDate: Date?
     @State private var selectedAverageWeek: Date?
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     private var selectedEntry: DailyStep? {
-        guard let selectedDate else { return nil }
-        return dailySteps.first { Calendar.current.isDate($0.date, inSameDayAs: selectedDate) }
+        ChartSelectionResolver.dailyEntry(for: selectedDate, in: dailySteps)
     }
 
     var body: some View {
@@ -31,21 +31,31 @@ struct StatsDashboard: View {
                 )
 
                 ChartSection(title: "Daily steps") {
-                    InteractiveChart(
-                        dailySteps: dailySteps,
-                        goal: goal,
-                        selectedDate: $selectedDate
-                    )
-                }
+                    VStack(alignment: .leading, spacing: 14) {
+                        InteractiveChart(
+                            dailySteps: dailySteps,
+                            goal: goal,
+                            weekStart: weekStart,
+                            selectedDate: $selectedDate
+                        )
 
-                DayPicker(
-                    dailySteps: dailySteps,
-                    selectedDate: $selectedDate
-                )
+                        DaySelector(
+                            dailySteps: dailySteps,
+                            selectedDate: $selectedDate
+                        )
 
-                if let selectedEntry {
-                    SelectionCard(entry: selectedEntry, goal: goal)
-                        .transition(.opacity.combined(with: .move(edge: .top)))
+                        Group {
+                            if let selectedEntry {
+                                SelectionCard(
+                                    entry: selectedEntry,
+                                    goal: goal,
+                                    onClear: { selectedDate = nil }
+                                )
+                                .transition(reduceMotion ? .identity : .opacity.combined(with: .move(edge: .top)))
+                            }
+                        }
+                        .animation(reduceMotion ? nil : .snappy, value: selectedEntry?.id)
+                    }
                 }
 
                 StatsSummary(dailySteps: dailySteps)
@@ -61,9 +71,15 @@ struct StatsDashboard: View {
             .padding()
             .frame(maxWidth: .infinity)
         }
-        .animation(.snappy, value: selectedDate)
         .onChange(of: dailySteps) { _, _ in
             selectedDate = nil
+        }
+        .onChange(of: weeklySummaries) { _, _ in
+            selectedAverageWeek = nil
+        }
+        .onChange(of: weekStart) { _, _ in
+            selectedDate = nil
+            selectedAverageWeek = nil
         }
     }
 }
@@ -177,19 +193,68 @@ struct StatsSummary: View {
     }
 }
 
-private struct DayPicker: View {
+private struct DaySelector: View {
     let dailySteps: [DailyStep]
     @Binding var selectedDate: Date?
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    private var selectedEntry: DailyStep? {
+        ChartSelectionResolver.dailyEntry(for: selectedDate, in: dailySteps)
+    }
 
     var body: some View {
-        Picker("Selected day", selection: $selectedDate) {
-            Text("No selection").tag(Optional<Date>.none)
-            ForEach(dailySteps, id: \.date) { entry in
-                Text(entry.date, format: .dateTime.weekday(.wide).month(.abbreviated).day())
-                    .tag(Optional(entry.date))
+        ScrollView(.horizontal) {
+            HStack(spacing: 8) {
+                ForEach(dailySteps) { entry in
+                    dayButton(for: entry)
+                }
+            }
+            .padding(.vertical, 2)
+        }
+        .scrollIndicators(.hidden)
+        .accessibilityLabel("Selected day")
+    }
+
+    private func dayButton(for entry: DailyStep) -> some View {
+        let isSelected = selectedEntry?.id == entry.id
+
+        return Button {
+            withAnimation(reduceMotion ? nil : .snappy) {
+                selectedDate = isSelected ? nil : entry.date
+            }
+        } label: {
+            VStack(spacing: 3) {
+                Text(entry.date, format: .dateTime.weekday(.narrow))
+                    .font(.caption.weight(.semibold))
+
+                Text(entry.date, format: .dateTime.day())
+                    .font(.headline)
+                    .monospacedDigit()
+
+                Text(entry.steps, format: .number.notation(.compactName))
+                    .font(.caption2)
+                    .foregroundStyle(isSelected ? .white.opacity(0.9) : .secondary)
+                    .monospacedDigit()
+            }
+            .foregroundStyle(isSelected ? Color.white : .primary)
+            .frame(minWidth: 50, minHeight: 54)
+            .padding(.horizontal, 4)
+            .background(
+                isSelected ? Color.accentColor : Color.secondary.opacity(0.1),
+                in: .rect(cornerRadius: 12)
+            )
+            .overlay {
+                if !isSelected {
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(.quaternary, lineWidth: 1)
+                }
             }
         }
-        .pickerStyle(.menu)
+        .buttonStyle(.plain)
+        .accessibilityLabel(entry.date.formatted(.dateTime.weekday(.wide).month(.wide).day()))
+        .accessibilityValue(String(localized: "\(entry.steps) steps"))
+        .accessibilityHint(isSelected ? "Tap the same day to deselect" : "Select day")
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 }
 

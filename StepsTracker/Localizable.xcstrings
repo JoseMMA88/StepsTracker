@@ -86,6 +86,26 @@
         }
       }
     },
+    "%lld above your goal" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld por encima de tu objetivo"
+          }
+        }
+      }
+    },
+    "%lld below your goal" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld por debajo de tu objetivo"
+          }
+        }
+      }
+    },
     "%lld steps" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -93,6 +113,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld pasos"
+          }
+        }
+      }
+    },
+    "%lld steps per day" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld pasos al día"
           }
         }
       }
@@ -216,6 +246,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Elige abajo un día para escuchar sus detalles de actividad."
+          }
+        }
+      }
+    },
+    "Clear selection" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrar selección"
           }
         }
       }
@@ -747,6 +787,16 @@
         }
       }
     },
+    "Select day" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seleccionar día"
+          }
+        }
+      }
+    },
     "Selected Day" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -887,6 +937,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "StepsTracker lee tus pasos de Salud de Apple para mostrar tu progreso. Tus datos de salud no se comparten con terceros."
+          }
+        }
+      }
+    },
+    "Tap or drag to explore the chart" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toca o arrastra para explorar la gráfica"
           }
         }
       }
