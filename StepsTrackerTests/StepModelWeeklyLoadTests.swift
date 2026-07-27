@@ -116,10 +116,13 @@ final class StepDataProviderStub: StepDataProviding {
     var stepsByDate: [Date: Int] = [:]
     var error: Error?
     var authorizationError: Error?
+    var suspendNextStepRequest = false
+    var onStepRequestSuspended: (() -> Void)?
     private(set) var authorizationRequests = 0
     private(set) var observerStarts = 0
     private(set) var completedObservedUpdates = 0
     private var observedUpdate: (@Sendable @MainActor () async -> Void)?
+    private var suspendedStepRequest: CheckedContinuation<Void, Never>?
 
     func requestAuthorization() async throws {
         authorizationRequests += 1
@@ -132,7 +135,21 @@ final class StepDataProviderStub: StepDataProviding {
         if let error {
             throw error
         }
+
+        if suspendNextStepRequest {
+            suspendNextStepRequest = false
+            await withCheckedContinuation { continuation in
+                suspendedStepRequest = continuation
+                onStepRequestSuspended?()
+            }
+        }
+
         return stepsByDate[day] ?? 0
+    }
+
+    func resumeSuspendedStepRequest() {
+        suspendedStepRequest?.resume()
+        suspendedStepRequest = nil
     }
 
     func startObservingChanges(onUpdate: @escaping @Sendable @MainActor () async -> Void) async throws {

@@ -41,9 +41,10 @@ struct MainView: View {
             }
         case .ready:
             if stepModel.todaySteps == 0 {
-                EmptyStepsView {
-                    await stepModel.refresh()
-                }
+                EmptyStepsView(
+                    isRefreshing: stepModel.isUpdating,
+                    onRefresh: { await stepModel.refresh() }
+                )
             } else {
                 DashboardContent(
                     steps: stepModel.todaySteps,
@@ -214,6 +215,7 @@ private struct PermissionRequiredView: View {
 }
 
 private struct EmptyStepsView: View {
+    let isRefreshing: Bool
     let onRefresh: () async -> Void
 
     var body: some View {
@@ -227,9 +229,15 @@ private struct EmptyStepsView: View {
                     await onRefresh()
                 }
             }
+            .disabled(isRefreshing)
         }
         .refreshable {
             await onRefresh()
+        }
+        .overlay {
+            if isRefreshing {
+                ProgressView()
+            }
         }
     }
 }

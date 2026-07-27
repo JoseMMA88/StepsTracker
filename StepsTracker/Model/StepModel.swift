@@ -99,6 +99,7 @@ final class StepModel {
     }
     private(set) var dailySteps: [DailyStep] = []
     private(set) var dataState: StepDashboardState = .loading
+    private(set) var isRefreshing = false
     let isUsingDemoData: Bool
     private(set) var isReminderEnabled: Bool
     private(set) var reminderTime: Date
@@ -109,7 +110,7 @@ final class StepModel {
     }
 
     var isUpdating: Bool {
-        dataState == .loading
+        isRefreshing || dataState == .loading
     }
 
     @ObservationIgnored private let stepDataProvider: StepDataProviding
@@ -159,8 +160,19 @@ final class StepModel {
         refreshID += 1
         let currentRefreshID = refreshID
         let today = calendar.startOfDay(for: now())
+        let keepsDashboardVisible = dataState == .ready
         statisticsWeekCache.removeAll()
-        dataState = .loading
+        isRefreshing = true
+
+        if !keepsDashboardVisible {
+            dataState = .loading
+        }
+
+        defer {
+            if currentRefreshID == refreshID {
+                isRefreshing = false
+            }
+        }
 
         do {
             let refreshedSteps = try await loadWeek(endingOn: today)

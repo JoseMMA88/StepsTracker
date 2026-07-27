@@ -42,6 +42,33 @@ final class StepModelFetchTodayTests: XCTestCase {
         XCTAssertEqual(model.dataState, .failed("HealthKit query failed"))
     }
 
+    func testRefreshKeepsTheDashboardReadyWhileAnUpdateIsInFlight() async {
+        let clock = TestClock(now: date(day: 26))
+        let provider = StepDataProviderStub()
+        provider.stepsByDate = steps(for: clock.now, values: Array(repeating: 100, count: 7))
+        let model = makeModel(provider: provider, clock: clock)
+        await model.refresh()
+
+        provider.stepsByDate = steps(for: clock.now, values: Array(repeating: 500, count: 7))
+        provider.suspendNextStepRequest = true
+        let updateStarted = expectation(description: "Refresh starts loading step data")
+        provider.onStepRequestSuspended = { updateStarted.fulfill() }
+
+        let refreshTask = Task { await model.refresh() }
+        await fulfillment(of: [updateStarted], timeout: 1)
+
+        XCTAssertTrue(model.isUpdating)
+        XCTAssertEqual(model.dataState, .ready)
+        XCTAssertEqual(model.todaySteps, 100)
+
+        provider.resumeSuspendedStepRequest()
+        await refreshTask.value
+
+        XCTAssertFalse(model.isUpdating)
+        XCTAssertEqual(model.dataState, .ready)
+        XCTAssertEqual(model.todaySteps, 500)
+    }
+
     func testGoalAchievementIsScheduledOnlyOncePerDay() async {
         let clock = TestClock(now: date(day: 26))
         let provider = StepDataProviderStub()
