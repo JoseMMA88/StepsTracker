@@ -69,7 +69,7 @@ private struct StatisticsHistoryView: View {
     @State private var selectedWeek = Calendar.autoupdatingCurrent.dateInterval(of: .weekOfYear, for: .now)?.start ?? .now
     @State private var history: StepStatisticsHistory?
     @State private var errorMessage: String?
-    @State private var isLoading = false
+    @State private var isLoading = true
 
     private var calendar: Calendar { .autoupdatingCurrent }
 
@@ -91,8 +91,6 @@ private struct StatisticsHistoryView: View {
                     onNextWeek: showNextWeek,
                     onCurrentWeek: showCurrentWeek
                 )
-            } else if isLoading {
-                ProgressView("Loading statistics")
             } else if let errorMessage {
                 ContentUnavailableView {
                     Label("Unable to load statistics", systemImage: "exclamationmark.triangle")
@@ -104,6 +102,8 @@ private struct StatisticsHistoryView: View {
                     }
                     .buttonStyle(.borderedProminent)
                 }
+            } else {
+                ProgressView("Loading statistics")
             }
         }
         .task(id: selectedWeek) {
