@@ -73,6 +73,10 @@ command -v plutil >/dev/null || fail "plutil is required."
 
 git -C "${ROOT_DIR}" diff --check
 plutil -lint "${INFO_PLIST}"
+for privacy_key in NSHealthShareUsageDescription NSHealthUpdateUsageDescription; do
+    privacy_value="$(plutil -extract "${privacy_key}" raw "${INFO_PLIST}" 2>/dev/null || true)"
+    [[ -n "${privacy_value}" ]] || fail "${privacy_key} must contain a user-facing purpose string."
+done
 xcodebuild -list -project "${PROJECT_PATH}" -json >/dev/null
 xcodebuild -showBuildSettings \
     -project "${PROJECT_PATH}" \

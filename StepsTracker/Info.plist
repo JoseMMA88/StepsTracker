@@ -6,5 +6,7 @@
 	<false/>
 	<key>NSHealthShareUsageDescription</key>
 	<string>StepsTracker reads your step data from HealthKit to provide comprehensive step tracking, daily progress monitoring, and weekly statistics to help you maintain an active lifestyle.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>StepsTracker receives updates when your step data changes so your daily progress and weekly statistics stay up to date.</string>
 </dict>
 </plist>
