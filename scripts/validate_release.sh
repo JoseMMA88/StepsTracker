@@ -71,6 +71,12 @@ command -v xcodebuild >/dev/null || fail "Xcode command-line tools are required.
 command -v plutil >/dev/null || fail "plutil is required."
 [[ -d "${PROJECT_PATH}" ]] || fail "Project not found at ${PROJECT_PATH}."
 
+ios_sdk_version="$(xcrun --sdk iphoneos --show-sdk-version)" ||
+    fail "Could not find the iOS SDK. Select Xcode 27 or later."
+[ "${ios_sdk_version%%.*}" -ge 27 ] 2>/dev/null ||
+    fail "Release validation requires iOS SDK 27 or later (found ${ios_sdk_version:-none})."
+echo "Release iOS SDK: ${ios_sdk_version}"
+
 git -C "${ROOT_DIR}" diff --check
 plutil -lint "${INFO_PLIST}"
 for privacy_key in NSHealthShareUsageDescription NSHealthUpdateUsageDescription; do

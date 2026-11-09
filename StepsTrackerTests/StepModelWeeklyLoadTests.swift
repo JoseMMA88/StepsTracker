@@ -119,6 +119,7 @@ final class StepDataProviderStub: StepDataProviding {
     var suspendNextStepRequest = false
     var onStepRequestSuspended: (() -> Void)?
     private(set) var authorizationRequests = 0
+    private(set) var requestedRanges: [Range<Date>] = []
     private(set) var observerStarts = 0
     private(set) var completedObservedUpdates = 0
     private var observedUpdate: (@Sendable @MainActor () async -> Void)?
@@ -131,11 +132,11 @@ final class StepDataProviderStub: StepDataProviding {
         }
     }
 
-    func steps(for day: Date) async throws -> Int {
+    func steps(in range: Range<Date>) async throws -> [Date: Int] {
+        requestedRanges.append(range)
         if let error {
             throw error
         }
-
         if suspendNextStepRequest {
             suspendNextStepRequest = false
             await withCheckedContinuation { continuation in
@@ -143,8 +144,7 @@ final class StepDataProviderStub: StepDataProviding {
                 onStepRequestSuspended?()
             }
         }
-
-        return stepsByDate[day] ?? 0
+        return stepsByDate.filter { range.contains($0.key) }
     }
 
     func resumeSuspendedStepRequest() {

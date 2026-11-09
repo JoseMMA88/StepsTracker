@@ -7,8 +7,8 @@ struct DailyStep: Identifiable, Hashable, Sendable {
 
     var id: Date { date }
 
-    init(date: Date, steps: Int) {
-        self.date = Calendar.autoupdatingCurrent.startOfDay(for: date)
+    init(date: Date, steps: Int, calendar: Calendar = .autoupdatingCurrent) {
+        self.date = calendar.startOfDay(for: date)
         self.steps = max(steps, 0)
     }
 }
@@ -40,7 +40,8 @@ enum StepDataProviderError: Error, Equatable, LocalizedError {
 protocol StepDataProviding: AnyObject {
     var requiresHealthAuthorization: Bool { get }
     func requestAuthorization() async throws
-    func steps(for day: Date) async throws -> Int
+    /// Returns totals keyed by the start of each day with samples in the half-open range.
+    func steps(in range: Range<Date>) async throws -> [Date: Int]
     func startObservingChanges(onUpdate: @escaping @Sendable @MainActor () async -> Void) async throws
 }
 
@@ -81,37 +82,43 @@ final class HealthKitStepDataProvider: StepDataProviding {
         }
     }
 
-    func steps(for day: Date) async throws -> Int {
+    func steps(in range: Range<Date>) async throws -> [Date: Int] {
         guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount) else {
             throw StepDataProviderError.stepTypeUnavailable
         }
 
-        let start = calendar.startOfDay(for: day)
-        guard let end = calendar.date(byAdding: .day, value: 1, to: start) else {
-            throw StepDataProviderError.invalidDateRange
-        }
-
+        try Task.checkCancellation()
         let predicate = HKQuery.predicateForSamples(
-            withStart: start,
-            end: end,
+            withStart: range.lowerBound,
+            end: range.upperBound,
             options: .strictStartDate
         )
+        let query = HKStatisticsCollectionQueryDescriptor(
+            predicate: .quantitySample(type: stepType, predicate: predicate),
+            options: .cumulativeSum,
+            anchorDate: range.lowerBound,
+            intervalComponents: DateComponents(calendar: calendar, timeZone: calendar.timeZone, day: 1)
+        )
 
-        return try await withCheckedThrowingContinuation { continuation in
-            let query = HKStatisticsQuery(
-                quantityType: stepType,
-                quantitySamplePredicate: predicate,
-                options: .cumulativeSum
-            ) { _, result, error in
-                if let error {
-                    continuation.resume(throwing: StepDataProviderError.queryFailed(error.localizedDescription))
-                    return
-                }
-                let value = result?.sumQuantity()?.doubleValue(for: .count()) ?? 0
-                continuation.resume(returning: max(Int(value), 0))
-            }
-            healthStore.execute(query)
+        let collection: HKStatisticsCollection
+        do {
+            collection = try await query.result(for: healthStore)
+        } catch is CancellationError {
+            throw CancellationError()
+        } catch {
+            try Task.checkCancellation()
+            throw StepDataProviderError.queryFailed(error.localizedDescription)
         }
+
+        try Task.checkCancellation()
+        var totals: [Date: Int] = [:]
+        for statistics in collection.statistics() {
+            let day = calendar.startOfDay(for: statistics.startDate)
+            if range.contains(day), let quantity = statistics.sumQuantity() {
+                totals[day] = Int(quantity.doubleValue(for: .count()))
+            }
+        }
+        return totals
     }
 
     func startObservingChanges(onUpdate: @escaping @Sendable @MainActor () async -> Void) async throws {
@@ -169,7 +176,21 @@ final class DemoStepDataProvider: StepDataProviding {
 
     func requestAuthorization() async throws {}
 
-    func steps(for day: Date) async throws -> Int {
+    func steps(in range: Range<Date>) async throws -> [Date: Int] {
+        var totals: [Date: Int] = [:]
+        var day = range.lowerBound
+        while day < range.upperBound {
+            try Task.checkCancellation()
+            totals[day] = steps(for: day)
+            guard let nextDay = calendar.dateInterval(of: .day, for: day)?.end else {
+                throw StepDataProviderError.invalidDateRange
+            }
+            day = nextDay
+        }
+        return totals
+    }
+
+    private func steps(for day: Date) -> Int {
         let today = calendar.startOfDay(for: now())
         let requestedDay = calendar.startOfDay(for: day)
         guard requestedDay <= today,

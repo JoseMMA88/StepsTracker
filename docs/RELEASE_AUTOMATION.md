@@ -6,9 +6,32 @@ archivar y distribuir sin copiar certificados, perfiles o claves privadas al
 repositorio.
 
 El esquema compartido `StepsTracker` y `ci_scripts/ci_pre_xcodebuild.sh` forman
-parte del repositorio. En cada acción de archivado, el script solo valida el
-número de build de Cloud; Xcode Cloud asigna ese número al archive sin modificar
-el proyecto. La versión comercial se mantiene en el commit de la versión.
+parte del repositorio. En cada acción de archivado, el script valida el SDK y el
+número de build de Cloud. Xcode Cloud asigna ese número al archivo. La versión
+comercial se mantiene en el commit de la versión.
+
+## Xcode y SDK para publicar
+
+Usa [Xcode 27.2 (27B52)](https://developer.apple.com/news/releases/?id=10292026a)
+como referencia en local y en Xcode Cloud. El archivado de Cloud y la validación
+local exigen el SDK de iOS 27 o posterior y registran la versión que detectan.
+El requisito del SDK de compilación es independiente del mínimo de instalación,
+que sigue siendo iOS 17.
+
+Si tienes varias versiones de Xcode instaladas, selecciona la de release para
+la sesión del terminal. Ajusta la ruta al nombre que tenga en tu Mac.
+
+```sh
+export DEVELOPER_DIR=/Applications/Xcode-27.2.app/Contents/Developer
+xcodebuild -version
+xcrun --sdk iphoneos --show-sdk-version
+```
+
+En la sección **Xcode Cloud** de App Store Connect, abre **Environment** de
+**Validation** y **TestFlight** y selecciona la misma versión estable. Si usas
+**Latest Release**, comprueba en el log qué versión se ejecutó. Al actualizar
+Xcode, ejecuta primero **Validation** con la versión nueva antes de archivar.
+Consulta la [referencia de entornos de Xcode Cloud](https://developer.apple.com/documentation/xcode/xcode-cloud-workflow-reference).
 
 ## Configuración única en Xcode Cloud
 

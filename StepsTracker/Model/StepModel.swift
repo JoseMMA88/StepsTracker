@@ -120,7 +120,7 @@ final class StepModel {
     @ObservationIgnored private let calendar: Calendar
     @ObservationIgnored private var hasStartedObserving = false
     @ObservationIgnored private var refreshID = 0
-    @ObservationIgnored private var statisticsWeekCache: [Date: [DailyStep]] = [:]
+    @ObservationIgnored private var statisticsWeekCache: [Date: (end: Date, days: [DailyStep])] = [:]
 
     init(
         enableSideEffects: Bool = true,
@@ -159,12 +159,12 @@ final class StepModel {
     func refresh() async {
         refreshID += 1
         let currentRefreshID = refreshID
-        let today = calendar.startOfDay(for: now())
-        let keepsDashboardVisible = dataState == .ready
+        let refreshDate = now()
+        let previousState = dataState
         statisticsWeekCache.removeAll()
         isRefreshing = true
 
-        if !keepsDashboardVisible {
+        if previousState != .ready {
             dataState = .loading
         }
 
@@ -175,12 +175,15 @@ final class StepModel {
         }
 
         do {
-            let refreshedSteps = try await loadWeek(endingOn: today)
+            let refreshedSteps = try await loadWeek(containing: refreshDate)
             guard currentRefreshID == refreshID else { return }
             dailySteps = refreshedSteps
             todaySteps = refreshedSteps.last?.steps ?? 0
             dataState = .ready
-            await notifyGoalAchievementIfNeeded(for: today)
+            await notifyGoalAchievementIfNeeded(for: calendar.startOfDay(for: refreshDate))
+        } catch is CancellationError {
+            guard currentRefreshID == refreshID else { return }
+            dataState = previousState
         } catch {
             guard currentRefreshID == refreshID else { return }
             dataState = state(for: error)
@@ -246,98 +249,93 @@ final class StepModel {
         forWeekContaining date: Date,
         weeksToDisplay: Int = 8
     ) async throws -> StepStatisticsHistory {
-        let selectedWeekStart = try weekStart(containing: date)
-        let currentWeekStart = try weekStart(containing: now())
-        guard selectedWeekStart <= currentWeekStart else {
+        let selectedWeek = try week(containing: date)
+        guard let today = calendar.dateInterval(of: .day, for: now()), selectedWeek.start <= today.start else {
             throw StepDataProviderError.invalidDateRange
         }
 
-        let selectedWeek = try await calendarWeek(startingOn: selectedWeekStart)
-        let summaries = try await weeklySummaries(
-            endingWith: selectedWeekStart,
-            selectedWeek: selectedWeek,
-            count: max(weeksToDisplay, 1)
-        )
+        let ranges = try (0..<max(weeksToDisplay, 1)).reversed().map { offset in
+            guard let dateInWeek = calendar.date(byAdding: .weekOfYear, value: -offset, to: selectedWeek.start) else {
+                throw StepDataProviderError.invalidDateRange
+            }
+            let week = try week(containing: dateInWeek)
+            return week.start..<min(week.end, today.end)
+        }
+        let weeks = try await loadStatisticsWeeks(in: ranges)
+        let summaries = try weeks.map { days in
+            guard let summary = StatsCalculator.weeklySummary(for: days, calendar: calendar) else {
+                throw StepDataProviderError.invalidDateRange
+            }
+            return summary
+        }
 
         return StepStatisticsHistory(
-            selectedWeekStart: selectedWeekStart,
-            dailySteps: selectedWeek,
+            selectedWeekStart: selectedWeek.start,
+            dailySteps: weeks.last ?? [],
             weeklySummaries: summaries
         )
     }
 
-    private func loadWeek(endingOn today: Date) async throws -> [DailyStep] {
-        var result: [DailyStep] = []
-        result.reserveCapacity(Self.weeklyDayCount)
-
-        for offset in stride(from: Self.weeklyDayCount - 1, through: 0, by: -1) {
-            guard let day = calendar.date(byAdding: .day, value: -offset, to: today) else {
-                throw StepDataProviderError.invalidDateRange
-            }
-            let steps = try await stepDataProvider.steps(for: day)
-            result.append(DailyStep(date: day, steps: steps))
-        }
-
-        return result
-    }
-
-    private func weeklySummaries(
-        endingWith selectedWeekStart: Date,
-        selectedWeek: [DailyStep],
-        count: Int
-    ) async throws -> [WeeklyStepSummary] {
-        var summaries: [WeeklyStepSummary] = []
-        summaries.reserveCapacity(count)
-
-        for offset in stride(from: count - 1, through: 0, by: -1) {
-            try Task.checkCancellation()
-            guard let weekStart = calendar.date(byAdding: .weekOfYear, value: -offset, to: selectedWeekStart) else {
-                throw StepDataProviderError.invalidDateRange
-            }
-
-            let dailySteps = weekStart == selectedWeekStart
-                ? selectedWeek
-                : try await calendarWeek(startingOn: weekStart)
-            guard let summary = StatsCalculator.weeklySummary(for: dailySteps, calendar: calendar) else {
-                throw StepDataProviderError.invalidDateRange
-            }
-            summaries.append(summary)
-        }
-
-        return summaries
-    }
-
-    private func calendarWeek(startingOn date: Date) async throws -> [DailyStep] {
-        let weekStart = try weekStart(containing: date)
-        if let cachedWeek = statisticsWeekCache[weekStart] {
-            return cachedWeek
-        }
-
-        let today = calendar.startOfDay(for: now())
-        guard weekStart <= today else {
+    private func loadWeek(containing date: Date) async throws -> [DailyStep] {
+        guard let today = calendar.dateInterval(of: .day, for: date),
+              let firstDate = calendar.date(byAdding: .day, value: 1 - Self.weeklyDayCount, to: today.start) else {
             throw StepDataProviderError.invalidDateRange
         }
+        let range = calendar.startOfDay(for: firstDate)..<today.end
+        let totals = try await stepDataProvider.steps(in: range)
+        try Task.checkCancellation()
+        return try dailySteps(in: range, totals: totals)
+    }
 
-        var result: [DailyStep] = []
-        result.reserveCapacity(Self.weeklyDayCount)
-
-        for offset in 0..<Self.weeklyDayCount {
-            try Task.checkCancellation()
-            guard let day = calendar.date(byAdding: .day, value: offset, to: weekStart), day <= today else {
-                break
+    private func loadStatisticsWeeks(in ranges: [Range<Date>]) async throws -> [[DailyStep]] {
+        try Task.checkCancellation()
+        let cachedWeeks = ranges.map { range -> [DailyStep]? in
+            guard let cached = statisticsWeekCache[range.lowerBound], cached.end == range.upperBound else {
+                return nil
             }
-            result.append(DailyStep(date: day, steps: try await stepDataProvider.steps(for: day)))
+            return cached.days
+        }
+        let missingRanges = zip(ranges, cachedWeeks).compactMap { range, cached in
+            cached == nil ? range : nil
+        }
+        guard let firstMissing = missingRanges.first, let lastMissing = missingRanges.last else {
+            return cachedWeeks.compactMap { $0 }
         }
 
-        statisticsWeekCache[weekStart] = result
+        let cacheGeneration = refreshID
+        let totals = try await stepDataProvider.steps(in: firstMissing.lowerBound..<lastMissing.upperBound)
+        try Task.checkCancellation()
+        let weeks = try zip(ranges, cachedWeeks).map { range, cached in
+            if let cached { return cached }
+            return try dailySteps(in: range, totals: totals)
+        }
+        if cacheGeneration == refreshID {
+            for (index, range) in ranges.enumerated() where cachedWeeks[index] == nil {
+                if let cached = statisticsWeekCache[range.lowerBound], cached.end > range.upperBound { continue }
+                statisticsWeekCache[range.lowerBound] = (range.upperBound, weeks[index])
+            }
+        }
+        return weeks
+    }
+
+    private func dailySteps(in range: Range<Date>, totals: [Date: Int]) throws -> [DailyStep] {
+        var result: [DailyStep] = []
+        var day = range.lowerBound
+        while day < range.upperBound {
+            result.append(DailyStep(date: day, steps: totals[day] ?? 0, calendar: calendar))
+            guard let nextDay = calendar.dateInterval(of: .day, for: day)?.end else {
+                throw StepDataProviderError.invalidDateRange
+            }
+            day = nextDay
+        }
         return result
     }
 
-    private func weekStart(containing date: Date) throws -> Date {
+    private func week(containing date: Date) throws -> DateInterval {
         guard let interval = calendar.dateInterval(of: .weekOfYear, for: date) else {
             throw StepDataProviderError.invalidDateRange
         }
-        return interval.start
+        return interval
     }
 
     private func initializeDashboard() async {

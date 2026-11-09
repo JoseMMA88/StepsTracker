@@ -15,6 +15,7 @@ final class StepModelFetchTodayTests: XCTestCase {
         XCTAssertEqual(model.dailySteps.count, 7)
         XCTAssertEqual(model.todaySteps, 700)
         XCTAssertEqual(model.dailySteps.last?.steps, 700)
+        XCTAssertEqual(provider.requestedRanges, [date(day: 20)..<date(day: 27)])
 
         clock.now = date(day: 27)
         provider.stepsByDate = steps(for: clock.now, values: [10, 20, 30, 40, 50, 60, 70])
@@ -27,7 +28,7 @@ final class StepModelFetchTodayTests: XCTestCase {
         XCTAssertEqual(model.todaySteps, 70)
     }
 
-    func testRefreshKeepsPreviousSeriesWhenOneDayFails() async {
+    func testRefreshKeepsPreviousSeriesWhenTheStepQueryFails() async {
         let clock = TestClock(now: date(day: 26))
         let provider = StepDataProviderStub()
         provider.stepsByDate = steps(for: clock.now, values: Array(repeating: 100, count: 7))
@@ -129,6 +130,42 @@ final class StepModelFetchTodayTests: XCTestCase {
         XCTAssertEqual(history.weeklySummaries.map(\.totalSteps), [2_800, 7_700])
         XCTAssertEqual(history.weeklySummaries.map(\.averageDailySteps), [400, 1_100])
         XCTAssertEqual(model.dailySteps, dashboardSteps)
+        let tomorrow = calendar.date(byAdding: .day, value: 1, to: today)!
+        XCTAssertEqual(provider.requestedRanges, [currentWeek..<tomorrow, previousWeek..<tomorrow])
+    }
+
+    func testStatisticsHistoryExtendsTheCachedPartialWeekAcrossDaylightSavingTime() async throws {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(identifier: "America/Los_Angeles")!
+        calendar.firstWeekday = 1
+        let sunday = calendar.date(from: DateComponents(year: 2026, month: 3, day: 8))!
+        let monday = calendar.date(byAdding: .day, value: 1, to: sunday)!
+        let tuesday = calendar.date(byAdding: .day, value: 1, to: monday)!
+        let previousWeek = calendar.date(byAdding: .day, value: -7, to: sunday)!
+        let clock = TestClock(now: sunday)
+        let provider = StepDataProviderStub()
+        provider.stepsByDate = [monday: 900]
+        let model = StepModel(
+            enableSideEffects: false,
+            stepDataProvider: provider,
+            settingsStore: InMemoryGoalSettingsStore(),
+            notificationScheduler: NotificationSchedulerSpy(),
+            now: { clock.now },
+            calendar: calendar
+        )
+
+        let sundayHistory = try await model.statisticsHistory(forWeekContaining: sunday, weeksToDisplay: 2)
+        _ = try await model.statisticsHistory(forWeekContaining: sunday, weeksToDisplay: 2)
+        XCTAssertEqual(sundayHistory.dailySteps.map(\.date), [sunday])
+        XCTAssertEqual(provider.requestedRanges, [previousWeek..<monday])
+
+        clock.now = monday
+        let mondayHistory = try await model.statisticsHistory(forWeekContaining: monday, weeksToDisplay: 2)
+
+        XCTAssertEqual(mondayHistory.dailySteps.map(\.date), [sunday, monday])
+        XCTAssertEqual(mondayHistory.dailySteps.map(\.steps), [0, 900])
+        XCTAssertEqual(mondayHistory.weeklySummaries.map(\.averageDailySteps), [0, 450])
+        XCTAssertEqual(provider.requestedRanges, [previousWeek..<monday, sunday..<tuesday])
     }
 
     private func makeModel(
