@@ -132,9 +132,12 @@ final class HealthKitStepDataProvider: StepDataProviding {
                 return
             }
 
+            // HealthKit allows deferred acknowledgement. Only this task calls it on success.
+            // Remove the bridge once the SDK marks the completion handler Sendable.
+            nonisolated(unsafe) let acknowledgeDelivery = completion
             Task { @MainActor in
                 await onUpdate()
-                completion()
+                acknowledgeDelivery()
             }
         }
         healthStore.execute(query)
